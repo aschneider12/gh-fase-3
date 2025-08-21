@@ -16,6 +16,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/public/**","/public",
+                                "/usuarios",//bloquear
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**"
                         ).permitAll()

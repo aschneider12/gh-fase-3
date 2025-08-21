@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:15
-    container_name: postgres-restaurante
+    container_name: postgres-hospital
     restart: always
     environment:
       POSTGRES_DB: ghospital
