@@ -7,11 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public class UserDetailCustom implements UserDetails {
+public class UserDetailsCustom implements UserDetails {
 
     UsuarioEntity usuario;
 
-    public UserDetailCustom(UsuarioEntity usuario) {
+    public UserDetailsCustom(UsuarioEntity usuario) {
         this.usuario = usuario;
     }
 
