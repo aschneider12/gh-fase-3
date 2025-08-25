@@ -17,14 +17,14 @@ public class PerfilTransacaoEntity implements Serializable {
     @JoinColumn(name = "perfil_id", insertable = false, updatable = false)
     private PerfilEntity perfil;
 
+    @ManyToOne
+    @JoinColumn(name = "transacao_id", insertable = false, updatable = false)
+    private TransacaoEntity transacao;
+
     private boolean view;
     private boolean insert;
     private boolean update;
     private boolean delete;
-
-    @ManyToOne
-    @JoinColumn(name = "transacao_id", insertable = false, updatable = false)
-    private TransacaoEntity transacao;
 
     public PerfilTransacaoEntity() {
 

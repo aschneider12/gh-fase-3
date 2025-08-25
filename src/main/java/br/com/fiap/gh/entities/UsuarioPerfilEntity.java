@@ -1,5 +1,6 @@
 package br.com.fiap.gh.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ public class UsuarioPerfilEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", insertable = false, updatable = false)
+    @JsonBackReference
     private UsuarioEntity usuario;
 
     public UsuarioPerfilEntity() {

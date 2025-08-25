@@ -1,11 +1,18 @@
 package br.com.fiap.gh.security;
 
+import br.com.fiap.gh.entities.PerfilEntity;
+import br.com.fiap.gh.entities.PerfilTransacaoEntity;
 import br.com.fiap.gh.entities.UsuarioEntity;
+import br.com.fiap.gh.entities.UsuarioPerfilEntity;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.swing.text.View;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class UserDetailsCustom implements UserDetails {
 
@@ -17,7 +24,37 @@ public class UserDetailsCustom implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+
+        Set<GrantedAuthority> authorities = new HashSet<>();
+
+        Set<UsuarioPerfilEntity> perfis = usuario.getPerfis();
+
+        for (UsuarioPerfilEntity perfil : perfis) {
+
+            Set<PerfilTransacaoEntity> transacoes = perfil.getPerfil().getTransacoes();
+
+            for(PerfilTransacaoEntity pt : transacoes) {
+
+                var prefix = pt.getTransacao().getDescricao().toUpperCase();
+                // Adiciona a role base
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + prefix));
+
+                // Adiciona as permissões específicas, se forem true
+                if (pt.isView())
+                    authorities.add(new SimpleGrantedAuthority("VIEW_"+prefix));
+
+                if (pt.isInsert())
+                    authorities.add(new SimpleGrantedAuthority("INSERT_" + prefix));
+
+                if (pt.isUpdate())
+                    authorities.add(new SimpleGrantedAuthority("UPDATE_" + prefix));
+
+                if (pt.isDelete())
+                    authorities.add(new SimpleGrantedAuthority("DELETE_" + prefix));
+            }
+        }
+
+        return authorities;
     }
 
     @Override

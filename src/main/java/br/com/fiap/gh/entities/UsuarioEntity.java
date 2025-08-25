@@ -22,7 +22,7 @@ public class UsuarioEntity implements Serializable {
 
     private String senha;
 
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonManagedReference //json irá serializar os perfis
 	private Set<UsuarioPerfilEntity> perfis;
 

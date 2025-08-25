@@ -53,6 +53,7 @@ ALTER TABLE "usuario_perfil" ADD CONSTRAINT "usuario_perfil_fk2" FOREIGN KEY ("p
 ALTER TABLE "perfil_transacao" ADD CONSTRAINT "perfil_transacao_fk5" FOREIGN KEY ("transacao_id") REFERENCES "transacao"("id");
 
 ALTER TABLE "perfil_transacao" ADD CONSTRAINT "perfil_transacao_fk6" FOREIGN KEY ("perfil_id") REFERENCES "perfil"("id");
+
 ALTER TABLE "consulta" ADD CONSTRAINT "consulta_fk1" FOREIGN KEY ("medico_id") REFERENCES "usuario"("id");
 
 ALTER TABLE "consulta" ADD CONSTRAINT "consulta_fk2" FOREIGN KEY ("paciente_id") REFERENCES "usuario"("id");
