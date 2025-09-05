@@ -1,9 +1,7 @@
 package br.com.fiap.gh.config;
 
 import br.com.fiap.gh.security.JwtAuthenticationFilter;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import br.com.fiap.gh.security.OAuth2LoginSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,15 +10,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -34,21 +27,28 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http,
+                                           OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) throws Exception {
 
         http.csrf(csrf -> csrf.disable());
 
         http.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/public/**","/public",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/auth/login"
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                );
+                .requestMatchers(
+                        "/public/**",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/auth/login",
+                        "/oauth2/**",
+                        "/login/oauth2/**"
+                ).permitAll()
+                .anyRequest().authenticated()
+        );
+
+        http.oauth2Login(oauth -> oauth
+                .successHandler(oAuth2LoginSuccessHandler)
+        );
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -64,5 +64,5 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
 }
+
