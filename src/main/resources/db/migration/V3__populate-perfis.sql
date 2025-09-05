@@ -6,7 +6,7 @@ values('Paciente 01', 'p1', '$2a$12$IPTV60S0BTkgylZ4DfMvY./WDlTHbjOaB4mp40yyzP.t
 ,('Enfermeira 01', 'e1', '$2a$12$WiDIjnyBGjs0Y6QSH.ICjutXUIXUy7Pw2XX5PNaELRx73mmkqSvSy')
 ,('Administrador 01', 'a1', '$2a$12$10rxLVYHcqZp6OuEQfA9f.14MGtY.mhPGtARhoWM1PSibKd4E7TOC');
 
-insert into transacao (descricao)
+insert into permissao (descricao)
 values ('consulta'),('usuario');
 
 insert into perfil (descricao)

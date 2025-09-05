@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "transacao")
-public class TransacaoEntity implements Serializable {
+@Table(name = "permissao")
+public class PermissaoEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +15,7 @@ public class TransacaoEntity implements Serializable {
 
     private String descricao;
 
-	public TransacaoEntity() {
+	public PermissaoEntity() {
 	}
 
 	public String getDescricao() {
@@ -26,7 +26,7 @@ public class TransacaoEntity implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public TransacaoEntity(Long id) {
+	public PermissaoEntity(Long id) {
 		this.id = id;
 	}
 
@@ -41,7 +41,7 @@ public class TransacaoEntity implements Serializable {
 	@Override
 	public boolean equals(Object o) {
 		if (o == null || getClass() != o.getClass()) return false;
-		TransacaoEntity that = (TransacaoEntity) o;
+		PermissaoEntity that = (PermissaoEntity) o;
 		return Objects.equals(id, that.id);
 	}
 

@@ -1,7 +1,5 @@
 package br.com.fiap.gh.controller;
 
-import br.com.fiap.gh.entities.TransacaoEntity;
-import br.com.fiap.gh.service.TransacaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

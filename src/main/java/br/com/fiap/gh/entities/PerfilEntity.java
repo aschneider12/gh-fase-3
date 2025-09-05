@@ -1,6 +1,5 @@
 package br.com.fiap.gh.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -18,16 +17,16 @@ public class PerfilEntity implements Serializable {
     private String descricao;
 
 	@OneToMany(mappedBy = "perfil", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private Set<PerfilTransacaoEntity> transacoes;
+	private Set<PerfilPermissaoEntity> transacoes;
 
 	public PerfilEntity() {
 	}
 
-	public Set<PerfilTransacaoEntity> getTransacoes() {
+	public Set<PerfilPermissaoEntity> getTransacoes() {
 		return transacoes;
 	}
 
-	public void setTransacoes(Set<PerfilTransacaoEntity> transacoes) {
+	public void setTransacoes(Set<PerfilPermissaoEntity> transacoes) {
 		this.transacoes = transacoes;
 	}
 

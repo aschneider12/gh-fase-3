@@ -19,19 +19,19 @@ CREATE TABLE IF NOT EXISTS "usuario_perfil" (
 	PRIMARY KEY ("id")
 );
 
-CREATE TABLE IF NOT EXISTS "transacao" (
+CREATE TABLE IF NOT EXISTS "permissao" (
 	"id" serial NOT NULL UNIQUE,
 	"descricao" varchar(255) NOT NULL UNIQUE,
 	PRIMARY KEY ("id")
 );
 
-CREATE TABLE IF NOT EXISTS "perfil_transacao" (
+CREATE TABLE IF NOT EXISTS "perfil_permissao" (
 	"id" serial NOT NULL UNIQUE,
 	"view" boolean NOT NULL,
 	"insert" boolean NOT NULL,
 	"update" boolean NOT NULL,
 	"delete" boolean NOT NULL,
-	"transacao_id" bigint NOT NULL,
+	"permissao_id" bigint NOT NULL,
 	"perfil_id" bigint NOT NULL,
 	PRIMARY KEY ("id")
 );
@@ -50,9 +50,9 @@ ALTER TABLE "usuario_perfil" ADD CONSTRAINT "usuario_perfil_fk1" FOREIGN KEY ("u
 
 ALTER TABLE "usuario_perfil" ADD CONSTRAINT "usuario_perfil_fk2" FOREIGN KEY ("perfil_id") REFERENCES "perfil"("id");
 
-ALTER TABLE "perfil_transacao" ADD CONSTRAINT "perfil_transacao_fk5" FOREIGN KEY ("transacao_id") REFERENCES "transacao"("id");
+ALTER TABLE "perfil_permissao" ADD CONSTRAINT "perfil_permissao_fk5" FOREIGN KEY ("permissao_id") REFERENCES "permissao"("id");
 
-ALTER TABLE "perfil_transacao" ADD CONSTRAINT "perfil_transacao_fk6" FOREIGN KEY ("perfil_id") REFERENCES "perfil"("id");
+ALTER TABLE "perfil_permissao" ADD CONSTRAINT "perfil_permissao_fk6" FOREIGN KEY ("perfil_id") REFERENCES "perfil"("id");
 
 ALTER TABLE "consulta" ADD CONSTRAINT "consulta_fk1" FOREIGN KEY ("medico_id") REFERENCES "usuario"("id");
 

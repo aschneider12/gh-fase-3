@@ -1,17 +1,14 @@
 package br.com.fiap.gh.security;
 
-import br.com.fiap.gh.entities.PerfilEntity;
-import br.com.fiap.gh.entities.PerfilTransacaoEntity;
+import br.com.fiap.gh.entities.PerfilPermissaoEntity;
 import br.com.fiap.gh.entities.UsuarioEntity;
 import br.com.fiap.gh.entities.UsuarioPerfilEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.swing.text.View;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class UserDetailsCustom implements UserDetails {
@@ -31,11 +28,11 @@ public class UserDetailsCustom implements UserDetails {
 
         for (UsuarioPerfilEntity perfil : perfis) {
 
-            Set<PerfilTransacaoEntity> transacoes = perfil.getPerfil().getTransacoes();
+            Set<PerfilPermissaoEntity> transacoes = perfil.getPerfil().getTransacoes();
 
-            for(PerfilTransacaoEntity pt : transacoes) {
+            for(PerfilPermissaoEntity pt : transacoes) {
 
-                var prefix = pt.getTransacao().getDescricao().toUpperCase();
+                var prefix = pt.getPermissao().getDescricao().toUpperCase();
                 // Adiciona a role base
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + prefix));
 

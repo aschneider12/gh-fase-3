@@ -1,7 +1,7 @@
 package br.com.fiap.gh.controller;
 
-import br.com.fiap.gh.entities.TransacaoEntity;
-import br.com.fiap.gh.service.TransacaoService;
+import br.com.fiap.gh.entities.PermissaoEntity;
+import br.com.fiap.gh.service.PermissaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/transacoes")
-public class TransacaoController {
+@RequestMapping("/permissoes")
+public class PermissaoController {
 
-    private final TransacaoService service;
+    private final PermissaoService service;
 
-    public TransacaoController(TransacaoService service) {
+    public PermissaoController(PermissaoService service) {
         this.service = service;
     }
 
@@ -27,7 +27,7 @@ public class TransacaoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TransacaoEntity>> listarTodos(){
+    public ResponseEntity<List<PermissaoEntity>> listarTodos(){
 
         return ResponseEntity.status(HttpStatus.OK).body(service.getAllTransacoes());
     }

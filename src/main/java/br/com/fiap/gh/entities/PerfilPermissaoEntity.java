@@ -1,13 +1,12 @@
 package br.com.fiap.gh.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity(name = "perfil_transacao")
-public class PerfilTransacaoEntity implements Serializable {
+@Entity(name = "perfil_permissao")
+public class PerfilPermissaoEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,15 +17,15 @@ public class PerfilTransacaoEntity implements Serializable {
     private PerfilEntity perfil;
 
     @ManyToOne
-    @JoinColumn(name = "transacao_id", insertable = false, updatable = false)
-    private TransacaoEntity transacao;
+    @JoinColumn(name = "permissao_id", insertable = false, updatable = false)
+    private PermissaoEntity permissao;
 
     private boolean view;
     private boolean insert;
     private boolean update;
     private boolean delete;
 
-    public PerfilTransacaoEntity() {
+    public PerfilPermissaoEntity() {
 
     }
 
@@ -78,12 +77,12 @@ public class PerfilTransacaoEntity implements Serializable {
         this.delete = delete;
     }
 
-    public TransacaoEntity getTransacao() {
-        return transacao;
+    public PermissaoEntity getPermissao() {
+        return permissao;
     }
 
-    public void setTransacao(TransacaoEntity transacao) {
-        this.transacao = transacao;
+    public void setPermissao(PermissaoEntity permissao) {
+        this.permissao = permissao;
     }
 
     @Override
@@ -91,7 +90,7 @@ public class PerfilTransacaoEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PerfilTransacaoEntity that = (PerfilTransacaoEntity) o;
+        PerfilPermissaoEntity that = (PerfilPermissaoEntity) o;
         return Objects.equals(getId(), that.getId());
     }
 
