@@ -1,7 +1,7 @@
 package br.com.fiap.gh.controller;
 
-import br.com.fiap.gh.entities.PerfilEntity;
 import br.com.fiap.gh.service.PerfilService;
+import br.com.fiap.gh.entities.PerfilEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

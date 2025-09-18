@@ -1,8 +1,8 @@
 package br.com.fiap.gh.security;
 
-import br.com.fiap.gh.entities.PerfilPermissaoEntity;
 import br.com.fiap.gh.entities.UsuarioEntity;
 import br.com.fiap.gh.entities.UsuarioPerfilEntity;
+import br.com.fiap.gh.entities.PerfilPermissaoEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

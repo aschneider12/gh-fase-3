@@ -1,8 +1,7 @@
 package br.com.fiap.gh.service;
 
-import br.com.fiap.gh.entities.PerfilEntity;
-import br.com.fiap.gh.entities.UsuarioEntity;
 import br.com.fiap.gh.repositories.PerfilRepository;
+import br.com.fiap.gh.entities.PerfilEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

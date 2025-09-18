@@ -9,5 +9,4 @@ public class GHospitalApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(GHospitalApplication.class, args);
 	}
-
 }
