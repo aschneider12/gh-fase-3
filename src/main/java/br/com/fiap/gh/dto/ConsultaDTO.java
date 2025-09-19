@@ -1,8 +1,11 @@
 package br.com.fiap.gh.dto;
 
 public record ConsultaDTO(
-        Long paciente_id,
-        Long medico_id,
-        String data
+        Long id,
+        String dataConsulta,
+        Long pacienteId,
+        String pacienteNome,
+        Long medicoId,
+        String medicoNome
 ) {
 }
