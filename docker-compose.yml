@@ -1,0 +1,78 @@
+services:
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: rabbitmq
+    ports: ["5672:5672", "15672:15672"]
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: 123456
+    networks: [shared_network]
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  postgres:
+    image: postgres:15
+    container_name: postgres-hospital
+    restart: always
+    environment:
+      POSTGRES_DB: ghospital
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports: ["5432:5432"]
+    networks: [shared_network]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ghospital"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  agendamento-service:
+    build: ./agendamento-service
+    container_name: agendamento-service
+    ports: ["8080:8080"]
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks: [shared_network]
+
+  notificacao-service:
+    build: ./notificacao-service
+    container_name: notificacao-service
+    ports: ["8082:8082"]
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks: [shared_network]
+
+  historico-service:
+    build: ./historico-service
+    container_name: historico-service
+    ports: ["8083:8083"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks: [shared_network]
+
+volumes:
+  pgdata:
+  rabbitmq_data:
+
+networks:
+  shared_network:
+    driver: bridge
