@@ -1,6 +1,6 @@
 package br.com.fiap.gh.agendamento.service;
 
-import br.com.fiap.gh.agendamento.security.JwtService;
+import br.com.fiap.gh.security.JwtService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

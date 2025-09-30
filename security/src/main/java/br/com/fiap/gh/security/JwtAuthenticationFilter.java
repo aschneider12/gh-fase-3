@@ -1,4 +1,4 @@
-package br.com.fiap.gh.agendamento.security;
+package br.com.fiap.gh.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -13,7 +13,7 @@
     <groupId>br.com.fiap</groupId>
     <artifactId>gh-fase-3</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>gh-fase-3</name>
+    <name>gh-fase-3-agendamento</name>
 
     <description>Projeto da fase 3 do Tech Challenge - FIAP Pós-tech</description>
     <url>https://github.com/aschneider12/gh-fase-3.git</url>
@@ -61,25 +61,6 @@
     </developers>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -97,11 +78,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -125,25 +101,7 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
-            <version>${jjwt.version}</version>
-        </dependency>
 
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-impl</artifactId>
-            <version>${jjwt.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId>
-            <version>${jjwt.version}</version>
-            <scope>runtime</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -163,8 +121,8 @@
         </dependency>
 
         <dependency>
-            <groupId>br.com.fiap.jpa</groupId>
-            <artifactId>jpa-gh</artifactId>
+            <groupId>br.com.fiap.security</groupId>
+            <artifactId>security</artifactId>
             <version>1.0</version>
         </dependency>
 

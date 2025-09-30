@@ -1,4 +1,4 @@
-package br.com.fiap.gh.agendamento.security;
+package br.com.fiap.gh.security;
 
 import br.com.fiap.gh.jpa.repositories.UsuarioRepository;
 import org.springframework.security.core.userdetails.UserDetails;

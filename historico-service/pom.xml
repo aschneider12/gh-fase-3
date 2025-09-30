@@ -53,8 +53,8 @@
         </dependency>
 
         <dependency>
-            <groupId>br.com.fiap.jpa</groupId>
-            <artifactId>jpa-gh</artifactId>
+            <groupId>br.com.fiap.security</groupId>
+            <artifactId>security</artifactId>
             <version>1.0</version>
         </dependency>
 

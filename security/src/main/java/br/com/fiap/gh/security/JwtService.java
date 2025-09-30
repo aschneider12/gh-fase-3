@@ -1,4 +1,4 @@
-package br.com.fiap.gh.agendamento.security;
+package br.com.fiap.gh.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

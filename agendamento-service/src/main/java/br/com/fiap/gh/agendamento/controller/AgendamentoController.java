@@ -1,6 +1,5 @@
 package br.com.fiap.gh.agendamento.controller;
 
-import br.com.fiap.gh.agendamento.dto.ConsultaDTO;
 import br.com.fiap.gh.agendamento.dto.ConsultaInsertDTO;
 import br.com.fiap.gh.agendamento.service.AgendamentoService;
 import org.springframework.http.HttpStatus;
@@ -16,8 +15,6 @@ public class AgendamentoController {
     public AgendamentoController(AgendamentoService service) {
         this.service = service;
     }
-
-    //TODO - SERA USADO COM GRAPHQL, FEITO SO PARA TESTAR AGORA
 
     @PostMapping
     public ResponseEntity<String> agendarConsulta(@RequestBody ConsultaInsertDTO consultaDTO){

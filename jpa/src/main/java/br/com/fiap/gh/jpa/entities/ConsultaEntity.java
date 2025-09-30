@@ -14,14 +14,18 @@ public class ConsultaEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+//    @Column
+//    private String especialidade;
+
 	@ManyToOne
-	@JoinColumn(name = "paciente_id", insertable = false, updatable = false)
+	@JoinColumn(name = "paciente_id", nullable = false)
 	private UsuarioEntity paciente;
 
 	@ManyToOne
-	@JoinColumn(name = "medico_id", insertable = false, updatable = false)
+	@JoinColumn(name = "medico_id", nullable = false)
     private UsuarioEntity medico;
 
+    @Column(nullable = false)
 	private LocalDateTime data;
 
 	public ConsultaEntity() {

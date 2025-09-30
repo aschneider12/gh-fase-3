@@ -44,8 +44,6 @@ CREATE TABLE IF NOT EXISTS "consulta" (
 	PRIMARY KEY ("id")
 );
 
-
-
 ALTER TABLE "usuario_perfil" ADD CONSTRAINT "usuario_perfil_fk1" FOREIGN KEY ("usuario_id") REFERENCES "usuario"("id");
 
 ALTER TABLE "usuario_perfil" ADD CONSTRAINT "usuario_perfil_fk2" FOREIGN KEY ("perfil_id") REFERENCES "perfil"("id");

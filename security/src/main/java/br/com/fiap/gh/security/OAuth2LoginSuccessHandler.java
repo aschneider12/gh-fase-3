@@ -1,4 +1,4 @@
-package br.com.fiap.gh.agendamento.security;
+package br.com.fiap.gh.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

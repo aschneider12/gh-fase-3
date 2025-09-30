@@ -1,4 +1,4 @@
-package br.com.fiap.gh.agendamento.security;
+package br.com.fiap.gh.security;
 
 import br.com.fiap.gh.jpa.entities.UsuarioEntity;
 import br.com.fiap.gh.jpa.entities.UsuarioPerfilEntity;
@@ -64,5 +64,9 @@ public class UserDetailsCustom implements UserDetails {
     public String getUsername() {
 
         return usuario.getLogin();
+    }
+
+    public UsuarioEntity getUsuario(){
+        return  usuario;
     }
 }
