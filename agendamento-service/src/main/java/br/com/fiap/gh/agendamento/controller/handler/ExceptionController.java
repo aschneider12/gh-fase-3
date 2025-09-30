@@ -4,6 +4,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,6 +19,15 @@ import java.util.Map;
 
 @ControllerAdvice
 public class ExceptionController {
+
+//    @ExceptionHandler(AccessDeniedException.class)
+//    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex) {
+//
+//        String mensagem = "Você não tem permissão para realizar esta operação.";
+//        return ResponseEntity
+//                .status(HttpStatus.FORBIDDEN)
+//                .body(mensagem);
+//    }
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<String> handlePersonalValidation(ValidationException ex){

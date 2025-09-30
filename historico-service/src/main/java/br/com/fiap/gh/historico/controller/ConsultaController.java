@@ -1,15 +1,13 @@
 package br.com.fiap.gh.historico.controller;
 
 import br.com.fiap.gh.historico.dto.ConsultaDTO;
+import br.com.fiap.gh.historico.dto.ConsultaInput;
 import br.com.fiap.gh.historico.services.ConsultaService;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,46 +23,56 @@ public class ConsultaController {
     }
 
     @QueryMapping
+    @PreAuthorize("hasAuthority('VIEW_CONSULTA')")
     public ConsultaDTO buscarConsulta(@Argument Long idConsulta) {
-        // return consultaService.buscarConsulta(idConsulta);
-        return null; // placeholder
+
+        return consultaService.buscarConsulta(idConsulta);
     }
 
     @QueryMapping
+    @PreAuthorize("hasAuthority('VIEW_CONSULTA')")
     public List<ConsultaDTO> buscarMinhasConsultas() {
         return consultaService.buscarMinhasConsultas();
     }
 
     @QueryMapping
+    @PreAuthorize("hasAuthority('VIEW_CONSULTA')")
     public List<ConsultaDTO> buscarMinhasConsultasFuturas() {
-        // return consultaService.buscarMinhasConsultasFuturas();
-        return List.of(); // placeholder
+
+        return consultaService.buscarMinhasConsultasFuturas();
     }
 
     @QueryMapping
     @PreAuthorize("hasAuthority('VIEW_CONSULTA')")
     public List<ConsultaDTO> buscarTodasConsultasPaciente(@Argument Long idPaciente) {
 
-        consultaService.listarPorPaciente(idPaciente);
-        // return consultaService.buscarTodasConsultasPaciente(idPaciente);
-        return List.of(); // placeholder
+        return consultaService.buscarTodasConsultasPaciente(idPaciente);
     }
 
     @QueryMapping
+    @PreAuthorize("hasAuthority('VIEW_CONSULTA')")
     public List<ConsultaDTO> buscarTodasConsultasMedico(@Argument Long idMedico) {
-        // return consultaService.buscarTodasConsultasMedico(idMedico);
-        return List.of(); // placeholder
+
+        return consultaService.buscarTodasConsultasMedico(idMedico);
     }
 
     @QueryMapping
+    @PreAuthorize("hasAuthority('VIEW_CONSULTA')")
     public List<ConsultaDTO> buscarConsultasFuturasPaciente(@Argument Long idPaciente) {
-        // return consultaService.buscarConsultasFuturasPaciente(idPaciente);
-        return List.of(); // placeholder
+        return consultaService.buscarConsultasFuturasPaciente(idPaciente);
     }
 
     @QueryMapping
+    @PreAuthorize("hasAuthority('VIEW_CONSULTA')")
     public List<ConsultaDTO> buscarConsultasFuturasMedico(@Argument Long idMedico) {
-        // return consultaService.buscarConsultasFuturasMedico(idMedico);
-        return List.of(); // placeholder
+
+         return consultaService.buscarConsultasFuturasMedico(idMedico);
+    }
+
+    @MutationMapping
+    @PreAuthorize("hasAuthority('INSERT_CONSULTA')")
+    public ConsultaDTO salvarConsulta(@Argument ConsultaInput input) {
+
+        return consultaService.salvarConsulta(input);
     }
 }

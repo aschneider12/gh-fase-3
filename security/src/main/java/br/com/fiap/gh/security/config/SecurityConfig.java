@@ -2,6 +2,8 @@ package br.com.fiap.gh.security.config;
 
 import br.com.fiap.gh.security.JwtAuthenticationFilter;
 import br.com.fiap.gh.security.OAuth2LoginSuccessHandler;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,12 +12,15 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -50,6 +55,8 @@ public class SecurityConfig {
         );
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http.exceptionHandling( ex -> ex.accessDeniedHandler(customAccessDeniedHandler()));
 
         http.oauth2Login(oauth -> oauth.successHandler(oAuth2LoginSuccessHandler));
 
@@ -88,6 +95,30 @@ public class SecurityConfig {
                 .issuerUri("https://accounts.google.com")
                 .clientName("Google")
                 .build();
+    }
+
+    @Bean
+    public AccessDeniedHandler customAccessDeniedHandler() {
+        return (HttpServletRequest request,
+                HttpServletResponse response,
+                org.springframework.security.access.AccessDeniedException ex) -> {
+
+            // Obter o usuário autenticado
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String usuario = (authentication != null) ? authentication.getName() : "anônimo";
+
+            // Obter a URL e método HTTP acessado
+            String metodo = request.getMethod();
+            String uri = request.getRequestURI();
+
+            // Log ou tratativa
+            System.out.printf("Acesso negado: usuário '%s' tentou acessar [%s %s]%n", usuario, metodo, uri);
+
+            // Resposta personalizada
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType("application/json");
+            response.getWriter().write(String.format("{\"erro\": \"Acesso negado para '%s' em [ %s %s ]\"}", usuario, metodo, uri));
+        };
     }
 }
 
