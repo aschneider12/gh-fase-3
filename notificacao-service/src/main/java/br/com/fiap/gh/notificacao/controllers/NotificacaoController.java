@@ -8,6 +8,6 @@ public class NotificacaoController {
 
     @GetMapping("/ping")
     public String ping() {
-        return "Serviço de Notificações ativo!";
+        return "Serviço de notificações ativo!";
     }
 }

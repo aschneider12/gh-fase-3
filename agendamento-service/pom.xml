@@ -87,6 +87,13 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+
+<!--        remover pois vai para o servico de historico-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-graphql</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -101,11 +108,6 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>jakarta.persistence</groupId>
-            <artifactId>jakarta.persistence-api</artifactId>
         </dependency>
 
         <dependency>
@@ -149,11 +151,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-graphql</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
             <version>3.2.0</version>
@@ -163,6 +160,12 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.8.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.com.fiap.jpa</groupId>
+            <artifactId>jpa-gh</artifactId>
+            <version>1.0</version>
         </dependency>
 
     </dependencies>

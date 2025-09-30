@@ -1,7 +1,7 @@
 package br.com.fiap.gh.historico.services;
 
-import br.com.fiap.gh.historico.entities.Consulta;
-import br.com.fiap.gh.historico.repositories.ConsultaRepository;
+import br.com.fiap.gh.jpa.entities.ConsultaEntity;
+import br.com.fiap.gh.jpa.repositories.ConsultaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,15 +16,16 @@ public class ConsultaService {
         this.repository = repository;
     }
 
-    public List<Consulta> listarTodas() {
+    public List<ConsultaEntity> listarTodas() {
+
         return repository.findAll();
     }
 
-    public List<Consulta> listarPorPaciente(Long pacienteId) {
+    public List<ConsultaEntity> listarPorPaciente(Long pacienteId) {
         return repository.findByPacienteId(pacienteId);
     }
 
-    public List<Consulta> listarFuturas() {
+    public List<ConsultaEntity> listarFuturas() {
         return repository.findByDataAfter(LocalDateTime.now());
     }
 }
