@@ -35,7 +35,9 @@ services:
       retries: 10
 
   agendamento-service:
-    build: ./agendamento-service
+    build: 
+      context: .
+      dockerfile: agendamento-service/Dockerfile
     container_name: agendamento-service
     ports: ["8080:8080"]
     depends_on:
@@ -48,7 +50,9 @@ services:
     networks: [shared_network]
 
   notificacao-service:
-    build: ./notificacao-service
+    build:
+      context: .
+      dockerfile: notificacao-service/Dockerfile
     container_name: notificacao-service
     ports: ["8082:8082"]
     depends_on:
@@ -59,7 +63,9 @@ services:
     networks: [shared_network]
 
   historico-service:
-    build: ./historico-service
+    build: 
+      context: .
+      dockerfile: historico-service/Dockerfile
     container_name: historico-service
     ports: ["8083:8083"]
     depends_on:

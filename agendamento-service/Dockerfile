@@ -5,9 +5,18 @@
 FROM maven:3.9.9-amazoncorretto-21-al2023 AS builder
 #Define a pasta de trabalho como /app
 WORKDIR /app
+
+# Copia os projetos de dependência para o build
+COPY jpa /app/jpa
+COPY security /app/security
+
+# Instala os JARs no repositório local do Maven
+RUN mvn -f jpa/pom.xml clean install && \
+    mvn -f security/pom.xml clean install
+    
 #CopSia os arquivos para a pasta de trabalho .
-COPY pom.xml .
-COPY src ./src
+COPY agendamento-service/pom.xml .
+COPY  agendamento-service/src ./src
 
 RUN mvn clean package -DskipTests
 

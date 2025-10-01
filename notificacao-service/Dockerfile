@@ -1,8 +1,9 @@
 FROM maven:3.9.9-amazoncorretto-21-al2023 AS builder
 WORKDIR /app
-COPY pom.xml .
-COPY src ./src
-RUN mvn clean package -DskipTests
+
+COPY notificacao-service/pom.xml .
+COPY notificacao-service/src ./src
+RUN mvn clean package -DskipTests -Pdocker
 
 FROM openjdk:21-slim
 WORKDIR /app
