@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "1f12c107-f121-4357-8ce7-cb3a0c6135cb",
+		"_postman_id": "5611203e-966c-4271-a944-878297915c11",
 		"name": "GHospital - Fase 3",
 		"description": "Serviço graphQL = localhost:8083/hospital/graphql\n\nServiço de agendamento = localhost:8082/hospital\n\nServiço de notificações =",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "44920548"
+		"_exporter_id": "21463207"
 	},
 	"item": [
 		{
@@ -567,21 +567,83 @@
 			]
 		},
 		{
-			"name": "Healthz",
+			"name": "Health serviços",
 			"item": [
 				{
-					"name": "Serviço notificação",
+					"name": "Serviço histórico",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Health endpoint está OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status).to.eql(\"UP\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8082/ping",
+							"raw": "localhost:8083/hospital/actuator/health",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"hospital",
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Serviço notificação",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Health endpoint está OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status).to.eql(\"UP\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/hospital/actuator/health",
 							"host": [
 								"localhost"
 							],
 							"port": "8082",
 							"path": [
-								"ping"
+								"hospital",
+								"actuator",
+								"health"
 							]
 						}
 					},
@@ -589,10 +651,30 @@
 				},
 				{
 					"name": "Serviço agendamento",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Health endpoint está OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status).to.eql(\"UP\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -605,18 +687,22 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}{{contextPath}}/public",
+							"raw": "localhost:8080/hospital/actuator/health",
 							"host": [
-								"{{host}}{{contextPath}}"
+								"localhost"
 							],
+							"port": "8080",
 							"path": [
-								"public"
+								"hospital",
+								"actuator",
+								"health"
 							]
 						}
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "Validar se os serviços estão UP através do actuator do Spring"
 		}
 	],
 	"auth": {

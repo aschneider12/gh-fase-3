@@ -49,8 +49,12 @@ public class SecurityConfig {
                         "/v3/api-docs/**",
                         "/auth/login",
                         "/oauth2/**",
-                        "/login/oauth2/**"
+                        "/login/oauth2/**",
+                        "/actuator/health",
+                        "/actuator/info"
+
                 ).permitAll()
+                .requestMatchers("/actuator/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
         );
 
