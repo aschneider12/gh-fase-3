@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "762428c6-df87-4941-9be0-87887928d867",
+		"_postman_id": "1f12c107-f121-4357-8ce7-cb3a0c6135cb",
 		"name": "GHospital - Fase 3",
+		"description": "Serviço graphQL = localhost:8083/hospital/graphql\n\nServiço de agendamento = localhost:8082/hospital\n\nServiço de notificações =",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "21463207"
+		"_exporter_id": "44920548"
 	},
 	"item": [
 		{
@@ -197,6 +198,58 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "salvar consulta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dataConsulta\" : \"11-10-2025 10:15\",\r\n    \"pacienteId\" : 2,\r\n    \"medicoId\" : 3\r\n    \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{contextPath}}/agendamento",
+							"host": [
+								"{{host}}{{contextPath}}"
+							],
+							"path": [
+								"agendamento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizar consulta",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dataConsulta\" : \"11-10-2025 10:15\",\r\n    \"pacienteId\" : 2,\r\n    \"medicoId\" : 3,\r\n    \"consultaId\" : 5\r\n    \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{contextPath}}/agendamento",
+							"host": [
+								"{{host}}{{contextPath}}"
+							],
+							"path": [
+								"agendamento"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -263,115 +316,307 @@
 			]
 		},
 		{
-			"name": "get raiz",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}{{contextPath}}/public",
-					"host": [
-						"{{host}}{{contextPath}}"
-					],
-					"path": [
-						"public"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get usuarios",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}{{contextPath}}/usuarios",
-					"host": [
-						"{{host}}{{contextPath}}"
-					],
-					"path": [
-						"usuarios"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "login",
-			"event": [
+			"name": "autenticar",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code é 200 - OK\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"const jsonData = pm.response.json();\r",
-							"\r",
-							"if (jsonData.token) {\r",
-							"    pm.collectionVariables.set(\"tokenJwt\", jsonData.token);\r",
-							"    console.log(\"Token JWT salvo com sucesso:\", jsonData.token);\r",
-							"} else {\r",
-							"    console.warn(\"Token não encontrado na resposta.\");\r",
-							"}"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\" : \"a1\",\r\n    \"password\" : \"a1\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"name": "login ADM",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200 - OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"if (jsonData.token) {\r",
+									"    pm.collectionVariables.set(\"tokenJwt\", jsonData.token);\r",
+									"    console.log(\"Token JWT salvo com sucesso:\", jsonData.token);\r",
+									"} else {\r",
+									"    console.warn(\"Token não encontrado na resposta.\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
 						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}{{contextPath}}/auth/login",
-					"host": [
-						"{{host}}{{contextPath}}"
 					],
-					"path": [
-						"auth",
-						"login"
-					]
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"a1\",\r\n    \"password\" : \"a1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{contextPath}}/auth/login",
+							"host": [
+								"{{host}}{{contextPath}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login PACIENTE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200 - OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"if (jsonData.token) {\r",
+									"    pm.collectionVariables.set(\"tokenJwt\", jsonData.token);\r",
+									"    console.log(\"Token JWT salvo com sucesso:\", jsonData.token);\r",
+									"} else {\r",
+									"    console.warn(\"Token não encontrado na resposta.\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"p1\",\r\n    \"password\" : \"p1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{contextPath}}/auth/login",
+							"host": [
+								"{{host}}{{contextPath}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login MEDICO",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200 - OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"if (jsonData.token) {\r",
+									"    pm.collectionVariables.set(\"tokenJwt\", jsonData.token);\r",
+									"    console.log(\"Token JWT salvo com sucesso:\", jsonData.token);\r",
+									"} else {\r",
+									"    console.warn(\"Token não encontrado na resposta.\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"m1\",\r\n    \"password\" : \"m1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{contextPath}}/auth/login",
+							"host": [
+								"{{host}}{{contextPath}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login ENFERMAGEM",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200 - OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"if (jsonData.token) {\r",
+									"    pm.collectionVariables.set(\"tokenJwt\", jsonData.token);\r",
+									"    console.log(\"Token JWT salvo com sucesso:\", jsonData.token);\r",
+									"} else {\r",
+									"    console.warn(\"Token não encontrado na resposta.\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"e1\",\r\n    \"password\" : \"e1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{contextPath}}/auth/login",
+							"host": [
+								"{{host}}{{contextPath}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "crud usuarios",
+			"item": [
+				{
+					"name": "get usuarios",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{contextPath}}/usuarios",
+							"host": [
+								"{{host}}{{contextPath}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Healthz",
+			"item": [
+				{
+					"name": "Serviço notificação",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/ping",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Serviço agendamento",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{contextPath}}/public",
+							"host": [
+								"{{host}}{{contextPath}}"
+							],
+							"path": [
+								"public"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
@@ -422,20 +667,12 @@
 		{
 			"key": "idPerfil",
 			"value": "",
-			"type": "string",
-			"description": {
-				"content": "",
-				"type": "text/plain"
-			}
+			"type": "string"
 		},
 		{
 			"key": "idTransacao",
 			"value": "",
-			"type": "string",
-			"description": {
-				"content": "",
-				"type": "text/plain"
-			}
+			"type": "string"
 		}
 	]
 }
