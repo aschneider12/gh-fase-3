@@ -26,7 +26,7 @@ public class PerfilController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-//    @PostMapping("/{perfilId}/transacoes")
+//    @PostMapping("/{perfilId}/permissoes")
 //    public ResponseEntity<Void> vincularTransacao(
 //            PathVariable Long perfilId,
 //            @RequestBody PerfilRequestDTO dto

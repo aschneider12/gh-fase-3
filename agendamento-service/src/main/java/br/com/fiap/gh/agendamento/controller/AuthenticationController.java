@@ -5,6 +5,7 @@ import br.com.fiap.gh.agendamento.dto.AuthRequest;
 import br.com.fiap.gh.agendamento.dto.AuthResponse;
 import br.com.fiap.gh.agendamento.service.AuthenticationService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +32,8 @@ public class AuthenticationController implements AuthenticationDocControler {
     @Override
     @PostMapping("/validar-token")
     public ResponseEntity<String> validarToken(@RequestHeader String authorization) {
+//        authenticationService.validarToken(authorization);
         return ResponseEntity.ok("Token recebido: " + authorization);
     }
+
 }

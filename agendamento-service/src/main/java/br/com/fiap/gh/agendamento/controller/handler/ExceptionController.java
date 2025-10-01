@@ -31,8 +31,11 @@ public class ExceptionController {
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<String> handlePersonalValidation(ValidationException ex){
-        //validacoes personalizadas se houverem
-//        ErrorResponse error = new ErrorResponse(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handlePersonalValidation(RuntimeException ex){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 

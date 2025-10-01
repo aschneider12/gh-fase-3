@@ -5,6 +5,7 @@ import br.com.fiap.gh.jpa.entities.PerfilEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PerfilService {
@@ -24,5 +25,12 @@ public class PerfilService {
         PerfilEntity perfil = new PerfilEntity();
         perfil.setDescricao(nomePerfil);
         repository.save(perfil);
+    }
+
+    public PerfilEntity buscarPerfilPorNome(String descricao) {
+        PerfilEntity perfil = repository.findByDescricao(descricao)
+                .orElseThrow(() -> new RuntimeException("Perfil não encontrado: " + descricao));
+
+        return perfil;
     }
 }

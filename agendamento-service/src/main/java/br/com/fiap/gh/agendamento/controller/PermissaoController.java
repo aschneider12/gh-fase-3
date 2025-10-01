@@ -19,9 +19,9 @@ public class PermissaoController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> cadastrar(@RequestBody String descricao){
+    public ResponseEntity<Void> cadastrar(@RequestBody String recurso){
 
-        service.cadastrar(descricao);
+        service.cadastrar(recurso);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

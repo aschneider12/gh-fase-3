@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS "usuario_perfil" (
 
 CREATE TABLE IF NOT EXISTS "permissao" (
 	"id" serial NOT NULL UNIQUE,
-	"descricao" varchar(255) NOT NULL UNIQUE,
+	"recurso" varchar(255) NOT NULL UNIQUE,
 	PRIMARY KEY ("id")
 );
 

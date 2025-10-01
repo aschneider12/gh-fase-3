@@ -28,11 +28,11 @@ public class UserDetailsCustom implements UserDetails {
 
         for (UsuarioPerfilEntity perfil : perfis) {
 
-            Set<PerfilPermissaoEntity> transacoes = perfil.getPerfil().getTransacoes();
+            Set<PerfilPermissaoEntity> transacoes = perfil.getPerfil().getPermissoes();
 
             for(PerfilPermissaoEntity pt : transacoes) {
 
-                var prefix = pt.getPermissao().getDescricao().toUpperCase();
+                var prefix = pt.getPermissao().getRecurso().toUpperCase();
                 // Adiciona a role base
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + prefix));
 

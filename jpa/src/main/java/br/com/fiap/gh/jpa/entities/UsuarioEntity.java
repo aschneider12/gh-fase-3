@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "usuario")
@@ -71,6 +73,20 @@ public class UsuarioEntity implements Serializable {
 
 	public void setPerfis(Set<UsuarioPerfilEntity> perfis) {
 		this.perfis = perfis;
+	}
+
+	public void addPerfil(PerfilEntity perfil) {
+		if(perfis == null)
+			perfis = new HashSet<>();
+		perfis.add(new UsuarioPerfilEntity(this, perfil));
+	}
+	public void removerPerfil(PerfilEntity perfil) {
+		if (perfis != null) {
+			// Remove todos os UsuarioPerfilEntity que possuem o perfil com a mesma descrição
+			this.perfis = perfis.stream()
+					.filter(up -> !up.getPerfil().getDescricao().equals(perfil.getDescricao()))
+					.collect(Collectors.toSet());
+		}
 	}
 
 	@Override

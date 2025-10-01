@@ -13,17 +13,17 @@ public class PermissaoEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String descricao;
+    private String recurso;
 
 	public PermissaoEntity() {
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public String getRecurso() {
+		return recurso;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setRecurso(String recurso) {
+		this.recurso = recurso;
 	}
 
 	public PermissaoEntity(Long id) {

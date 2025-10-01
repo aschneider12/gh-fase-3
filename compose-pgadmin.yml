@@ -10,13 +10,12 @@ services:
     ports:
       - "5050:80"
     networks:
-      - tech_shared_network
+      - shared_network
     volumes:
       - pgadmin_data:/var/lib/pgadmin
 
 volumes:
   pgadmin_data:
-
 networks:
-  tech_shared_network:
-    external: true
+  shared_network:
+    driver: bridge

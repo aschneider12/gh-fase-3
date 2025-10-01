@@ -17,17 +17,17 @@ public class PerfilEntity implements Serializable {
     private String descricao;
 
 	@OneToMany(mappedBy = "perfil", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private Set<PerfilPermissaoEntity> transacoes;
+	private Set<PerfilPermissaoEntity> permissoes;
 
 	public PerfilEntity() {
 	}
 
-	public Set<PerfilPermissaoEntity> getTransacoes() {
-		return transacoes;
+	public Set<PerfilPermissaoEntity> getPermissoes() {
+		return permissoes;
 	}
 
-	public void setTransacoes(Set<PerfilPermissaoEntity> transacoes) {
-		this.transacoes = transacoes;
+	public void setPermissoes(Set<PerfilPermissaoEntity> permissoes) {
+		this.permissoes = permissoes;
 	}
 
 	public String getDescricao() {

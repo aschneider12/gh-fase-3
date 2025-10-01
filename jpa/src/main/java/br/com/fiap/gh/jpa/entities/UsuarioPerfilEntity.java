@@ -14,16 +14,21 @@ public class UsuarioPerfilEntity implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "perfil_id", insertable = false, updatable = false)
+    @JoinColumn(name = "perfil_id")
     private PerfilEntity perfil;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", insertable = false, updatable = false)
+    @JoinColumn(name = "usuario_id")
     @JsonBackReference
     private UsuarioEntity usuario;
 
     public UsuarioPerfilEntity() {
 
+    }
+
+    public UsuarioPerfilEntity(UsuarioEntity usuario, PerfilEntity perfil) {
+        this.usuario = usuario;
+        this.perfil = perfil;
     }
 
     public UsuarioEntity getUsuario() {

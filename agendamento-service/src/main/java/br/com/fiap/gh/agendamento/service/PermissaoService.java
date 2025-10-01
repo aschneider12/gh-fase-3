@@ -22,7 +22,7 @@ public class PermissaoService {
 
     public void cadastrar(String nomeTransacao) {
         PermissaoEntity transacao = new PermissaoEntity();
-        transacao.setDescricao(nomeTransacao);
+        transacao.setRecurso(nomeTransacao);
         repository.save(transacao);
     }
 }
