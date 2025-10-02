@@ -1,9 +1,6 @@
 package br.com.fiap.gh.agendamento.doc;
 
-import br.com.fiap.gh.agendamento.dto.MudarSenhaDTO;
-import br.com.fiap.gh.agendamento.dto.UsuarioInsertDTO;
-import br.com.fiap.gh.agendamento.dto.UsuarioResponseDTO;
-import br.com.fiap.gh.agendamento.dto.UsuarioUpdateDTO;
+import br.com.fiap.gh.agendamento.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +12,12 @@ import java.util.Set;
         description = "Operações relacionadas ao CRUD dos usuários e seus perfis de acesso")
 public interface UsuarioDocController {
 
+    @Operation(description = "Buscar um usuário por ID.")
+    ResponseEntity<UsuarioResponseDTO> buscarPorId(Long id);
+
+    @Operation(description = "Retorna uma lista contendo todos os usuários.")
+    ResponseEntity<List<UsuarioResponseDTO>> buscarTodos();
+
     @Operation(description = "Cadastrar um novo usuário")
     ResponseEntity<UsuarioResponseDTO> cadastrar(UsuarioInsertDTO usuarioDTO);
 
@@ -24,17 +27,11 @@ public interface UsuarioDocController {
     @Operation(description = "Deletar usuário.")
     ResponseEntity<String> deletar(Long id);
 
-    @Operation(description = "Retorna uma lista contendo todos os usuários.")
-    ResponseEntity<List<UsuarioResponseDTO>> buscarTodos();
-
-    @Operation(description = "Buscar um usuário por ID.")
-    ResponseEntity<UsuarioResponseDTO> buscarPorId(Long id);
-
     @Operation(summary = "Altera a senha do usuário.")
     ResponseEntity<Void> mudarSenha(MudarSenhaDTO mudarSenhaDTO, Long id);
 
     @Operation(summary = "Listar perfis", description = "Listar todos os perfis vinculados ao usuário cadastrado")
-    public ResponseEntity<List<String>> listarPerfis(Long usuarioId);
+    public ResponseEntity<List<PerfilPermissaoDTO>> listarPerfis(Long usuarioId);
 
     @Operation(summary = "Cadastrar novo perfil", description = "Realiza a associação dos perfis ao usuário cadastrado")
     public ResponseEntity<Void> adicionarPerfis(Long usuarioId, Set<String> perfis);

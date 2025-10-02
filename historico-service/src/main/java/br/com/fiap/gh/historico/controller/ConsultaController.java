@@ -9,9 +9,9 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
-import java.util.Arrays;
 import java.util.List;
 
+//Disponível em /graphql
 @Controller
 @PreAuthorize("hasRole('CONSULTA')")
 public class ConsultaController {

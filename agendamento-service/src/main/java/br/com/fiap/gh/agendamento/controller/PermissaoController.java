@@ -1,5 +1,9 @@
 package br.com.fiap.gh.agendamento.controller;
 
+import br.com.fiap.gh.agendamento.doc.PermissaoDocController;
+import br.com.fiap.gh.agendamento.doc.UsuarioDocController;
+import br.com.fiap.gh.agendamento.dto.PerfilDTO;
+import br.com.fiap.gh.agendamento.dto.PermissaoDTO;
 import br.com.fiap.gh.jpa.entities.PermissaoEntity;
 import br.com.fiap.gh.agendamento.service.PermissaoService;
 import org.springframework.http.HttpStatus;
@@ -10,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/permissoes")
-public class PermissaoController {
+public class PermissaoController implements PermissaoDocController {
 
     private final PermissaoService service;
 
@@ -19,11 +23,31 @@ public class PermissaoController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> cadastrar(@RequestBody String recurso){
+    public ResponseEntity<PerfilDTO> cadastrar(@RequestBody String recurso){
 
         service.cadastrar(recurso);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @Override
+    public ResponseEntity<PerfilDTO> buscarPorId(Long id) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<PerfilDTO> atualizar(PermissaoDTO permissaoDTO) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<String> deletar(Long id) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<List<PermissaoDTO>> buscarTodos() {
+        return null;
     }
 
     @GetMapping

@@ -1,10 +1,7 @@
 package br.com.fiap.gh.agendamento.controller;
 
 import br.com.fiap.gh.agendamento.doc.UsuarioDocController;
-import br.com.fiap.gh.agendamento.dto.MudarSenhaDTO;
-import br.com.fiap.gh.agendamento.dto.UsuarioInsertDTO;
-import br.com.fiap.gh.agendamento.dto.UsuarioResponseDTO;
-import br.com.fiap.gh.agendamento.dto.UsuarioUpdateDTO;
+import br.com.fiap.gh.agendamento.dto.*;
 import br.com.fiap.gh.jpa.entities.UsuarioEntity;
 import br.com.fiap.gh.agendamento.service.UsuarioService;
 import org.springframework.http.HttpStatus;
@@ -76,7 +73,7 @@ public class UsuarioController implements UsuarioDocController {
 
     @Override
     @GetMapping("/{usuarioId}/perfis")
-    public ResponseEntity<List<String>> listarPerfis(@PathVariable(required = true) Long usuarioId) {
+    public ResponseEntity<List<PerfilPermissaoDTO>> listarPerfis(@PathVariable(required = true) Long usuarioId) {
         return null;
     }
 
