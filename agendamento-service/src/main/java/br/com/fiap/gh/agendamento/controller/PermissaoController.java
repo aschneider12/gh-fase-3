@@ -8,12 +8,14 @@ import br.com.fiap.gh.jpa.entities.PermissaoEntity;
 import br.com.fiap.gh.agendamento.service.PermissaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/permissoes")
+@PreAuthorize("hasRole('PERMISSAO')")
 public class PermissaoController implements PermissaoDocController {
 
     private final PermissaoService service;
