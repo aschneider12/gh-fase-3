@@ -1,0 +1,31 @@
+type ConsultaDTO {
+    id: ID
+    dataConsulta: String
+    pacienteId: ID
+    pacienteNome: String
+    medicoId: ID
+    medicoNome: String
+}
+
+input ConsultaInput {
+    dataConsulta: String!
+    pacienteId: ID!
+    medicoId: ID!
+}
+
+extend type Query {
+    buscarConsulta(idConsulta: ID!): ConsultaDTO
+
+    buscarMinhasConsultas: [ConsultaDTO]
+    buscarMinhasConsultasFuturas: [ConsultaDTO]
+
+    buscarTodasConsultasPaciente(idPaciente: ID!): [ConsultaDTO]
+    buscarTodasConsultasMedico(idMedico: ID!): [ConsultaDTO]
+
+    buscarConsultasFuturasPaciente(idPaciente: ID!): [ConsultaDTO]
+    buscarConsultasFuturasMedico(idMedico: ID!): [ConsultaDTO]
+}
+
+extend type Mutation {
+     salvarConsulta(input: ConsultaInput!): ConsultaDTO!
+ }

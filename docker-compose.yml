@@ -2,17 +2,19 @@ services:
   rabbitmq:
     image: rabbitmq:4-management
     container_name: rabbitmq
-    ports:
-      - "5672:5672"     # Porta para comunicação com aplicativos
-      - "15672:15672"   # Porta da interface web de gerenciamento
+    ports: ["5672:5672", "15672:15672"]
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: 123456
-    networks:
-        - shared_network
+    networks: [shared_network]
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   postgres:
     image: postgres:15
@@ -22,26 +24,56 @@ services:
       POSTGRES_DB: ghospital
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
-    networks:
-      - shared_network
+    ports: ["5432:5432"]
+    networks: [shared_network]
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ghospital"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
-  app:
-    build: .
-    container_name: spring-ghospital
-    ports:
-      - "8080:8080"
+  agendamento-service:
+    build: 
+      context: .
+      dockerfile: agendamento-service/Dockerfile
+    container_name: agendamento-service
+    ports: ["8080:8080"]
     depends_on:
-      - postgres
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ghospital
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-    networks:
-      - shared_network
+      SPRING_PROFILES_ACTIVE: docker
+    networks: [shared_network]
+
+  notificacao-service:
+    build:
+      context: .
+      dockerfile: notificacao-service/Dockerfile
+    container_name: notificacao-service
+    ports: ["8082:8082"]
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks: [shared_network]
+
+  historico-service:
+    build: 
+      context: .
+      dockerfile: historico-service/Dockerfile
+    container_name: historico-service
+    ports: ["8083:8083"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks: [shared_network]
 
 volumes:
   pgdata:
@@ -49,6 +81,4 @@ volumes:
 
 networks:
   shared_network:
-    name: tech_shared_network
-    external: false
     driver: bridge
