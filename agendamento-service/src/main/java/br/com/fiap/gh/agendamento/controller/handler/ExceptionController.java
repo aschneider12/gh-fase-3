@@ -6,12 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,14 +17,14 @@ import java.util.Map;
 @ControllerAdvice
 public class ExceptionController {
 
-//    @ExceptionHandler(AccessDeniedException.class)
-//    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex) {
-//
-//        String mensagem = "Você não tem permissão para realizar esta operação.";
-//        return ResponseEntity
-//                .status(HttpStatus.FORBIDDEN)
-//                .body(mensagem);
-//    }
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex) {
+
+        String mensagem = "Não autorizado. "+ex.getMessage();
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(mensagem);
+    }
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<String> handlePersonalValidation(ValidationException ex){

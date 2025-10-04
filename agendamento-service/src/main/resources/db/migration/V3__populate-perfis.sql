@@ -10,7 +10,7 @@ insert into permissao (recurso)
 values ('consulta'),('usuario');
 
 insert into perfil (descricao)
-values ('administrador'),('paciente'),('medico'),('enfermeiro');
+values ('administrador'),('paciente'),('medico'),('enfermagem');
 
 --perfil paciente
 insert into usuario_perfil (usuario_id, perfil_id)
@@ -25,7 +25,7 @@ values ((select id from usuario where login = 'm1' limit 1),
 --perfil enfermeiro
 insert into usuario_perfil (usuario_id, perfil_id)
 values ((select id from usuario where login = 'e1' limit 1),
- (select id from perfil where descricao like 'enfermeiro' limit 1));
+ (select id from perfil where descricao like 'enfermagem' limit 1));
 
 --perfil admnistrador
 insert into usuario_perfil (usuario_id, perfil_id)

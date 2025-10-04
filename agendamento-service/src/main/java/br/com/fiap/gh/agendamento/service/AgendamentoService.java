@@ -7,12 +7,20 @@ import br.com.fiap.gh.jpa.entities.ConsultaEntity;
 import br.com.fiap.gh.jpa.entities.UsuarioEntity;
 import br.com.fiap.gh.jpa.repositories.ConsultaRepository;
 import br.com.fiap.gh.jpa.repositories.UsuarioRepository;
+import br.com.fiap.gh.security.EnumPerfilAutorizado;
+import br.com.fiap.gh.security.UserDetailsCustom;
 import jakarta.validation.ValidationException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class AgendamentoService {
@@ -31,6 +39,8 @@ public class AgendamentoService {
     }
 
     public void agendarConsulta(ConsultaInsert consultaInsert){
+
+        validarAutorizacaoMedico(consultaInsert.medicoId());
 
         UsuarioEntity paciente  = usuarioRepository.findById(consultaInsert.pacienteId())
                 .orElseThrow(() -> new ValidationException("Paciente com ID="+consultaInsert.pacienteId()+" não encontrado!"));
@@ -55,6 +65,8 @@ public class AgendamentoService {
 
     public void atualizarConsulta(ConsultaUpdate consultaUpdate) {
 
+        validarAutorizacaoMedico(consultaUpdate.medicoId());
+
         var consulta = consultaRepository.findById(consultaUpdate.consultaId())
                 .orElseThrow(() -> new ValidationException("Consulta com ID=" + consultaUpdate.medicoId() + " não encontrada!"));
 
@@ -71,7 +83,6 @@ public class AgendamentoService {
             consulta.setPaciente(paciente);
         }
 
-
         LocalDateTime dataHoraConsulta = converterDateTime(consultaUpdate.dataConsulta());
         consulta.setData(dataHoraConsulta);
         consultaRepository.save(consulta);
@@ -85,6 +96,14 @@ public class AgendamentoService {
         notificationService.notificarPacienteSobreConsulta(consultaDTO);
     }
 
+    private void validarAutorizacaoMedico(Long medicoId) {
+        var usuario = getUsuarioLogado();
+        if(possuiPerfil("MEDICO") && !usuario.getId().equals(medicoId)) {
+
+            throw new AccessDeniedException("Médico só pode alterar suas próprias consultas!");
+        }
+    }
+
     private LocalDateTime converterDateTime(String data) {
 
         try {
@@ -95,6 +114,23 @@ public class AgendamentoService {
 
             throw new ValidationException("O formato da data é inválido, envie como dd-MM-yyyy HH:mm");
         }
+    }
+
+    public UsuarioEntity getUsuarioLogado(){
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsCustom userDetailsCustom = (UserDetailsCustom) auth.getPrincipal();
+
+        return userDetailsCustom.getUsuario();
+    }
+
+    public boolean possuiPerfil(String perfil){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || perfil == null) return false;
+
+        return auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(authority -> authority.equalsIgnoreCase("ROLE_" + perfil));
     }
 
 }

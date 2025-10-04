@@ -7,12 +7,6 @@ type ConsultaDTO {
     medicoNome: String
 }
 
-input ConsultaInput {
-    dataConsulta: String!
-    pacienteId: ID!
-    medicoId: ID!
-}
-
 extend type Query {
     buscarConsulta(idConsulta: ID!): ConsultaDTO
 
@@ -26,6 +20,3 @@ extend type Query {
     buscarConsultasFuturasMedico(idMedico: ID!): [ConsultaDTO]
 }
 
-extend type Mutation {
-     salvarConsulta(input: ConsultaInput!): ConsultaDTO!
- }

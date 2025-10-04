@@ -32,20 +32,22 @@ public class ConsultaController {
     @QueryMapping
     @PreAuthorize("hasAuthority('VIEW_CONSULTA')")
     public List<ConsultaDTO> buscarMinhasConsultas() {
+
+        //somente paciente
         return consultaService.buscarMinhasConsultas();
     }
 
     @QueryMapping
     @PreAuthorize("hasAuthority('VIEW_CONSULTA')")
     public List<ConsultaDTO> buscarMinhasConsultasFuturas() {
-
+        //paciente
         return consultaService.buscarMinhasConsultasFuturas();
     }
 
     @QueryMapping
     @PreAuthorize("hasAuthority('VIEW_CONSULTA')")
     public List<ConsultaDTO> buscarTodasConsultasPaciente(@Argument Long idPaciente) {
-
+        //paciente, medico, enfermeira
         return consultaService.buscarTodasConsultasPaciente(idPaciente);
     }
 
@@ -69,10 +71,10 @@ public class ConsultaController {
          return consultaService.buscarConsultasFuturasMedico(idMedico);
     }
 
-    @MutationMapping
-    @PreAuthorize("hasAuthority('INSERT_CONSULTA')")
-    public ConsultaDTO salvarConsulta(@Argument ConsultaInput input) {
-
-        return consultaService.salvarConsulta(input);
-    }
+//    @MutationMapping somente via agendamento
+//    @PreAuthorize("hasAuthority('INSERT_CONSULTA')")
+//    public ConsultaDTO salvarConsulta(@Argument ConsultaInput input) {
+//
+//        return consultaService.salvarConsulta(input);
+//    }
 }

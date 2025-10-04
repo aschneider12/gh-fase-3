@@ -28,26 +28,29 @@ public class UserDetailsCustom implements UserDetails {
 
         for (UsuarioPerfilEntity perfil : perfis) {
 
+            var perfilDescricao = perfil.getPerfil().getDescricao().toUpperCase();
+            authorities.add(new SimpleGrantedAuthority("ROLE_"+perfilDescricao));
+
             Set<PerfilPermissaoEntity> transacoes = perfil.getPerfil().getPermissoes();
 
             for(PerfilPermissaoEntity pt : transacoes) {
 
-                var prefix = pt.getPermissao().getRecurso().toUpperCase();
+                var prefix_recurso = pt.getPermissao().getRecurso().toUpperCase();
                 // Adiciona a role base
-                authorities.add(new SimpleGrantedAuthority("ROLE_" + prefix));
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + prefix_recurso));
 
                 // Adiciona as permissões específicas, se forem true
                 if (pt.isView())
-                    authorities.add(new SimpleGrantedAuthority("VIEW_"+prefix));
+                    authorities.add(new SimpleGrantedAuthority("VIEW_"+prefix_recurso));
 
                 if (pt.isInsert())
-                    authorities.add(new SimpleGrantedAuthority("INSERT_" + prefix));
+                    authorities.add(new SimpleGrantedAuthority("INSERT_" + prefix_recurso));
 
                 if (pt.isUpdate())
-                    authorities.add(new SimpleGrantedAuthority("UPDATE_" + prefix));
+                    authorities.add(new SimpleGrantedAuthority("UPDATE_" + prefix_recurso));
 
                 if (pt.isDelete())
-                    authorities.add(new SimpleGrantedAuthority("DELETE_" + prefix));
+                    authorities.add(new SimpleGrantedAuthority("DELETE_" + prefix_recurso));
             }
         }
 

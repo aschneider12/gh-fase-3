@@ -8,6 +8,7 @@ import br.com.fiap.gh.jpa.repositories.ConsultaRepository;
 import br.com.fiap.gh.security.UserDetailsCustom;
 import jakarta.validation.ValidationException;
 import org.springframework.cglib.core.Local;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,7 @@ public class ConsultaService {
     public List<ConsultaDTO> buscarMinhasConsultas() {
 
        var logado = getUsuarioLogado();
+
         var minhasConsultas  = repository.findByPacienteId(logado.getId());
         return ConsultaDTO.fromEntity(minhasConsultas);
     }
@@ -59,6 +61,7 @@ public class ConsultaService {
 
     public List<ConsultaDTO> buscarMinhasConsultasFuturas() {
         var logado = getUsuarioLogado();
+
         var minhasConsultasFuturas  = repository.findByPacienteIdAndDataAfter(logado.getId(), LocalDateTime.now());
         return ConsultaDTO.fromEntity(minhasConsultasFuturas);
     }
@@ -84,18 +87,20 @@ public class ConsultaService {
         return ConsultaDTO.fromEntity(consultasFuturasMedico );
     }
 
-    public ConsultaDTO salvarConsulta(ConsultaInput input) {
-
-        //TODO
+//    @PreAuthorize("hasPermission(null, 'MEDICO')")
+//    public ConsultaDTO salvarConsulta(ConsultaInput input) {
+//
+//        //TODO - via agendamento
 //        repository.save(new ConsultaEntity());
-        return null;
-    }
+//        return null;
+//    }
 
     //TODO - da pra mover pra uma classe útil
     public UsuarioEntity getUsuarioLogado(){
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsCustom userDetailsCustom = (UserDetailsCustom) auth.getPrincipal();
+
         return userDetailsCustom.getUsuario();
     }
 }
