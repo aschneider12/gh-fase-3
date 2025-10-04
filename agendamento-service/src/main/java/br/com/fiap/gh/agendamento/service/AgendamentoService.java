@@ -7,7 +7,6 @@ import br.com.fiap.gh.jpa.entities.ConsultaEntity;
 import br.com.fiap.gh.jpa.entities.UsuarioEntity;
 import br.com.fiap.gh.jpa.repositories.ConsultaRepository;
 import br.com.fiap.gh.jpa.repositories.UsuarioRepository;
-import br.com.fiap.gh.security.EnumPerfilAutorizado;
 import br.com.fiap.gh.security.UserDetailsCustom;
 import jakarta.validation.ValidationException;
 import org.springframework.security.access.AccessDeniedException;
@@ -19,8 +18,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class AgendamentoService {
