@@ -19,7 +19,7 @@ public class NotificationService {
         var body = "Sua consulta com Dr "+consultaDTO.medicoNome()+" foi agendada com sucesso para o dia "+consultaDTO.dataConsulta()+"h.";
 
         var r = new NotificacaoEmailDTO("Nova consulta agendada", body,
-                "clinica@fiap.com",consultaDTO.pacienteNome());
+                "clinicafiap@gmail.com",consultaDTO.pacienteEmail());
 
         notificationPacientePublisher.sendNewNotificationPaciente(r);
     }

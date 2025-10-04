@@ -5,6 +5,7 @@ public record ConsultaDTO(
         String dataConsulta,
         Long pacienteId,
         String pacienteNome,
+        String pacienteEmail,
         Long medicoId,
         String medicoNome
 ) {

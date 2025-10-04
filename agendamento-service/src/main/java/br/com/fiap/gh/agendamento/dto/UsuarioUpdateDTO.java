@@ -14,7 +14,9 @@ public record UsuarioUpdateDTO(
     @NotBlank(message = "Nome não pode ser vazio.")
     String nome,
     @NotBlank(message = "Login não pode ser vazio.")
-    String login
+    String login,
+    @NotBlank(message = "Email não pode ser vazio.")
+    String email
 ) { }
 
 

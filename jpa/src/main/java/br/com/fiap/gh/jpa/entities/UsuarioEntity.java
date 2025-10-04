@@ -22,7 +22,9 @@ public class UsuarioEntity implements Serializable {
     @Column(unique = true)
     private String login;
 
-    private String senha;
+	private String email;
+
+	private String senha;
 
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonManagedReference //json irá serializar os perfis
@@ -57,6 +59,14 @@ public class UsuarioEntity implements Serializable {
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getSenha() {

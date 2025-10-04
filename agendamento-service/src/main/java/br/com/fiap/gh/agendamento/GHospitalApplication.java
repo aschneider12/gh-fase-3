@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class GHospitalApplication {
 
 	public static void main(String[] args) {
+		System.out.println("Starting GHospital Application...");
 		SpringApplication.run(GHospitalApplication.class, args);
 	}
 }

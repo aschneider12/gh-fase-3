@@ -48,7 +48,7 @@ public class AgendamentoService {
 
         // Após agendar, enviar notificação
 
-        var consultaDTO = new ConsultaDTO(consulta.getId(), consultaInsertoDTO.dataConsulta(), paciente.getId(), paciente.getNome(), medico.getId(), medico.getNome());
+        var consultaDTO = new ConsultaDTO(consulta.getId(), consultaInsertoDTO.dataConsulta(), paciente.getId(), paciente.getNome(), paciente.getEmail(), medico.getId(), medico.getNome());
         notificationService.notificarPacienteSobreConsulta(consultaDTO);
     }
 
