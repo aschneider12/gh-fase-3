@@ -20,12 +20,14 @@ public class EmailService {
         System.out.println("Assunto: [" +messageEmailDTO.subject()+"]");
         System.out.println("Conteúdo - " +messageEmailDTO.message());
 
+        if(messageEmailDTO.emailRecipient() != null  && !messageEmailDTO.emailRecipient().isBlank()) {
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(messageEmailDTO.emailSender());
-        message.setTo(messageEmailDTO.emailRecipient());
-        message.setSubject(messageEmailDTO.subject());
-        message.setText(messageEmailDTO.message());
-        emailSender.send(message);
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom(messageEmailDTO.emailSender());
+            message.setTo(messageEmailDTO.emailRecipient());
+            message.setSubject(messageEmailDTO.subject());
+            message.setText(messageEmailDTO.message());
+            emailSender.send(message);
+        }
     }
 }

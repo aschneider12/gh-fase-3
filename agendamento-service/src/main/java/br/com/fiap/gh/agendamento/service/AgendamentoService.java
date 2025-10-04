@@ -1,7 +1,8 @@
 package br.com.fiap.gh.agendamento.service;
 
 import br.com.fiap.gh.agendamento.dto.ConsultaDTO;
-import br.com.fiap.gh.agendamento.dto.ConsultaInsertDTO;
+import br.com.fiap.gh.agendamento.dto.ConsultaInsert;
+import br.com.fiap.gh.agendamento.dto.ConsultaUpdate;
 import br.com.fiap.gh.jpa.entities.ConsultaEntity;
 import br.com.fiap.gh.jpa.entities.UsuarioEntity;
 import br.com.fiap.gh.jpa.repositories.ConsultaRepository;
@@ -29,16 +30,16 @@ public class AgendamentoService {
         this.notificationService = notificationService;
     }
 
-    public void agendarConsulta(ConsultaInsertDTO consultaInsertoDTO){
+    public void agendarConsulta(ConsultaInsert consultaInsert){
 
-        UsuarioEntity paciente  = usuarioRepository.findById(consultaInsertoDTO.pacienteId())
-                .orElseThrow(() -> new ValidationException("Paciente com ID="+consultaInsertoDTO.pacienteId()+" não encontrado!"));
+        UsuarioEntity paciente  = usuarioRepository.findById(consultaInsert.pacienteId())
+                .orElseThrow(() -> new ValidationException("Paciente com ID="+consultaInsert.pacienteId()+" não encontrado!"));
 
-        UsuarioEntity medico  =usuarioRepository.findById(consultaInsertoDTO.medicoId())
-                .orElseThrow(() -> new ValidationException("Médico com ID="+consultaInsertoDTO.medicoId()+" não encontrado!"));
+        UsuarioEntity medico  =usuarioRepository.findById(consultaInsert.medicoId())
+                .orElseThrow(() -> new ValidationException("Médico com ID="+consultaInsert.medicoId()+" não encontrado!"));
 
 
-        LocalDateTime dataHoraConsulta = converterDateTime(consultaInsertoDTO.dataConsulta());
+        LocalDateTime dataHoraConsulta = converterDateTime(consultaInsert.dataConsulta());
 
         var consulta = new ConsultaEntity(paciente, medico, dataHoraConsulta);
 
@@ -48,7 +49,39 @@ public class AgendamentoService {
 
         // Após agendar, enviar notificação
 
-        var consultaDTO = new ConsultaDTO(consulta.getId(), consultaInsertoDTO.dataConsulta(), paciente.getId(), paciente.getNome(), paciente.getEmail(), medico.getId(), medico.getNome());
+        var consultaDTO = new ConsultaDTO(consulta.getId(), consultaInsert.dataConsulta(), paciente.getId(), paciente.getNome(), paciente.getEmail(), medico.getId(), medico.getNome());
+        notificationService.notificarPacienteSobreConsulta(consultaDTO);
+    }
+
+    public void atualizarConsulta(ConsultaUpdate consultaUpdate) {
+
+        var consulta = consultaRepository.findById(consultaUpdate.consultaId())
+                .orElseThrow(() -> new ValidationException("Consulta com ID=" + consultaUpdate.medicoId() + " não encontrada!"));
+
+        if (consultaUpdate.medicoId() != consulta.getMedico().getId()){
+            UsuarioEntity medico = usuarioRepository.findById(consultaUpdate.medicoId())
+                    .orElseThrow(() -> new ValidationException("Médico com ID=" + consultaUpdate.medicoId() + " não encontrado!"));
+            consulta.setMedico(medico);
+        }
+
+        if(consultaUpdate.pacienteId() != consulta.getPaciente().getId()) {
+
+            UsuarioEntity paciente = usuarioRepository.findById(consultaUpdate.pacienteId())
+                    .orElseThrow(() -> new ValidationException("Paciente com ID=" + consultaUpdate.pacienteId() + " não encontrado!"));
+            consulta.setPaciente(paciente);
+        }
+
+
+        LocalDateTime dataHoraConsulta = converterDateTime(consultaUpdate.dataConsulta());
+        consulta.setData(dataHoraConsulta);
+        consultaRepository.save(consulta);
+        // Após agendar, enviar notificação
+
+        var consultaDTO = new ConsultaDTO(consulta.getId(),
+                consultaUpdate.dataConsulta(), consulta.getId(),
+                consulta.getPaciente().getNome(), consulta.getPaciente().getEmail(),
+                consulta.getMedico().getId(), consulta.getMedico().getNome());
+
         notificationService.notificarPacienteSobreConsulta(consultaDTO);
     }
 

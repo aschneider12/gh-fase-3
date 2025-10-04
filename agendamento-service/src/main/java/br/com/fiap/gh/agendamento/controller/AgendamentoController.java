@@ -1,7 +1,6 @@
 package br.com.fiap.gh.agendamento.controller;
 
 import br.com.fiap.gh.agendamento.dto.ConsultaInsert;
-import br.com.fiap.gh.agendamento.dto.ConsultaInsertDTO;
 import br.com.fiap.gh.agendamento.dto.ConsultaUpdate;
 import br.com.fiap.gh.agendamento.service.AgendamentoService;
 import org.springframework.http.HttpStatus;
@@ -22,9 +21,9 @@ public class AgendamentoController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('INSERT_CONSULTA')")
-    public ResponseEntity<String> agendarConsulta(@RequestBody ConsultaInsert consultaDTO){
+    public ResponseEntity<String> agendarConsulta(@RequestBody ConsultaInsert consultaInsert){
 
-        service.agendarConsulta(consultaDTO);
+        service.agendarConsulta(consultaInsert);
 
         //RETORNAR CONSULTAS, nao deve passar para o user admin e sim para o a1 somente
         return ResponseEntity.status(HttpStatus.OK).body("Consulta agendada com sucesso!");
@@ -34,7 +33,7 @@ public class AgendamentoController {
     @PreAuthorize("hasAuthority('UPDATE_CONSULTA')")
     public ResponseEntity<String> atualizarConsulta(@RequestBody ConsultaUpdate consultaUpdate){
 
-        service.agendarConsulta(consultaDTO);
+        service.atualizarConsulta(consultaUpdate);
 
         //RETORNAR CONSULTAS, nao deve passar para o user admin e sim para o a1 somente
         return ResponseEntity.status(HttpStatus.OK).body("Consulta agendada com sucesso!");

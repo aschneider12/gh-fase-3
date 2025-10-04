@@ -8,10 +8,10 @@
 	},
 	"item": [
 		{
-			"name": "crud transacao",
+			"name": "Permissões",
 			"item": [
 				{
-					"name": "get transacoes",
+					"name": "get permissoes",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -28,12 +28,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}{{contextPath}}/transacoes",
+							"raw": "{{host}}{{contextPath}}/permissoes",
 							"host": [
 								"{{host}}{{contextPath}}"
 							],
 							"path": [
-								"transacoes"
+								"permissoes"
 							]
 						}
 					},
@@ -563,6 +563,388 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "usuario by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200 - OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Resposta contém nome do restaurante\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"nome\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{contextPath}}/usuarios/5",
+							"host": [
+								"{{host}}{{contextPath}}"
+							],
+							"path": [
+								"usuarios",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "inserir usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"// Verifica se o status da resposta é 201\r",
+									"pm.test(\"Status code é 201 - Created\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Resposta contém ID do novo recurso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"id\");\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"pm.environment.set(\"usuarioId\", response.id);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenJwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Run Teste 2\", \r\n    \"login\": \"run02\",\r\n    \"senha\": \"RunTeste@1\",\r\n    \"perfis\": [\"ENFERMEIRO\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{contextPath}}/usuarios",
+							"host": [
+								"{{host}}{{contextPath}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar perfis",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenJwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{contextPath}}/usuarios/{{usuarioId}}/perfis",
+							"host": [
+								"{{host}}{{contextPath}}"
+							],
+							"path": [
+								"usuarios",
+								"{{usuarioId}}",
+								"perfis"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "salvar perfis",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Verifica se o status da resposta é 201\r",
+									"pm.test(\"Status code é 201 - Created\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenJwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"perfis\" : [\"CLIENTE\",\"ADMINISTRADOR\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{contextPath}}/usuarios/{{usuarioId}}/perfis",
+							"host": [
+								"{{host}}{{contextPath}}"
+							],
+							"path": [
+								"usuarios",
+								"{{usuarioId}}",
+								"perfis"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "apagar perfis",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 204 - No Content\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenJwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"perfis\" : [\"CLIENTE\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{contextPath}}/usuarios/{{usuarioId}}/perfil",
+							"host": [
+								"{{host}}{{contextPath}}"
+							],
+							"path": [
+								"usuarios",
+								"{{usuarioId}}",
+								"perfil"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizar usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200 - OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenJwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Run Teste Atualizado\",\r\n    \"email\": \"runtest@email.com\",\r\n    \"login\": \"run01\",\r\n    \"perfis\": [\r\n        \"DONO\"\r\n    ],\r\n    \"endereco\": { \r\n        \"rua\": \"Morro do Cuiaba\",\r\n        \"numero\": \"244\",\r\n        \"cidade\": \"Rio de Janeiro\",\r\n        \"estado\": \"RJ\",\r\n        \"cep\": \"RJ\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{contextPath}}/usuarios/{{usuarioId}}",
+							"host": [
+								"{{host}}{{contextPath}}"
+							],
+							"path": [
+								"usuarios",
+								"{{usuarioId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "apagar usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 204 - No Content\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenJwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{contextPath}}/usuarios/{{usuarioId}}",
+							"host": [
+								"{{host}}{{contextPath}}"
+							],
+							"path": [
+								"usuarios",
+								"{{usuarioId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alterar senha",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"// Verifica se o status da resposta é 201\r",
+									"pm.test(\"Status code é 204 - no content\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenJwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n    \"senhaAntiga\": \"RunTeste@1\",\r\n    \"senhaNova\": \"@New12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{contextPath}}/usuarios/{{usuarioId}}/mudar-senha",
+							"host": [
+								"{{host}}{{contextPath}}"
+							],
+							"path": [
+								"usuarios",
+								"{{usuarioId}}",
+								"mudar-senha"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -752,13 +1134,16 @@
 		},
 		{
 			"key": "idPerfil",
-			"value": "",
-			"type": "string"
+			"value": ""
 		},
 		{
 			"key": "idTransacao",
+			"value": ""
+		},
+		{
+			"key": "idUsuario",
 			"value": "",
-			"type": "string"
+			"type": "default"
 		}
 	]
 }

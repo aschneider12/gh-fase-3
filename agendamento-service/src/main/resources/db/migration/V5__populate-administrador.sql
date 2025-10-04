@@ -1,6 +1,6 @@
 
 insert into permissao (recurso)
-values ('perfil'),('permissao','usuario_perfil','perfil_permissao');
+values ('perfil'),('permissao'),('usuario_perfil'),('perfil_permissao');
 
 INSERT INTO perfil_permissao (view, insert, update, delete, permissao_id, perfil_id)
 SELECT

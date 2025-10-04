@@ -29,6 +29,7 @@ public class UsuarioService {
                         u.getId(),
                         u.getNome(),
                         u.getLogin(),
+                        u.getEmail(),
                         u.getPerfis().stream().map(p -> p.getPerfil().getDescricao()).collect(java.util.stream.Collectors.toSet())
                 )).toList();
     }
@@ -48,6 +49,7 @@ public class UsuarioService {
                 user.getId(),
                 user.getNome(),
                 user.getLogin(),
+                user.getEmail(),
                 user.getPerfis().stream().map(p -> p.getPerfil().getDescricao()).collect(java.util.stream.Collectors.toSet())
         );
     }
@@ -67,6 +69,7 @@ public class UsuarioService {
         return new UsuarioResponseDTO(
                 entidadeUsuario.getId(),
                 entidadeUsuario.getNome(),
+                entidadeUsuario.getEmail(),
                 entidadeUsuario.getLogin(),usuarioDTO.perfis());
     }
 
