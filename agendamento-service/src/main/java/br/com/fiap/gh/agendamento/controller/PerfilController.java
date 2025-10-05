@@ -4,10 +4,8 @@ import br.com.fiap.gh.agendamento.doc.PerfilDocController;
 import br.com.fiap.gh.agendamento.dto.PerfilDTO;
 import br.com.fiap.gh.agendamento.dto.PerfilPermissaoDTO;
 import br.com.fiap.gh.agendamento.service.PerfilService;
-import br.com.fiap.gh.jpa.entities.PerfilEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +13,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/perfis")
-@PreAuthorize("hasAnyRole('PERFIL', 'PERFIL_PERMISSAO)")
+//@PreAuthorize("hasRole('ADMINISTRADOR')")
 public class PerfilController implements PerfilDocController {
 
     private final PerfilService service;
@@ -43,45 +41,41 @@ public class PerfilController implements PerfilDocController {
     }
 
     @Override
-    public ResponseEntity<PerfilDTO> atualizar(PerfilDTO perfilDTO) {
+    @PutMapping("/{perfilId}")
+    public ResponseEntity<PerfilDTO> atualizar(Long id, PerfilDTO perfilDTO) {
         return null;
     }
 
     @Override
+    @DeleteMapping("/{perfilId}")
     public ResponseEntity<String> deletar(Long id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<List<PerfilPermissaoDTO>> listarPerfis(Long usuarioId) {
-        return null;
+    @GetMapping("/{perfilId}/permissoes")
+    public ResponseEntity<List<PerfilPermissaoDTO>> listarPermissoes(
+            @PathVariable(required = true) Long perfilId) {
+
+        var permissoes =  service.buscarPermissoes(perfilId);
+        return ResponseEntity.status(HttpStatus.OK).body(permissoes);
     }
 
     @Override
-    public ResponseEntity<Void> adicionarPerfis(Long usuarioId, Set<String> perfis) {
-        return null;
+    @PostMapping("/{perfilId}/permissoes")
+    public ResponseEntity<Void> adicionarPermissoes(
+            @PathVariable(required = true) Long perfilId, Set<String> permissoes) {
+        service.adicionarPermissoes(perfilId, permissoes);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
-    public ResponseEntity<Void> removerPerfis(Long usuarioId, Set<String> perfis) {
-        return null;
-    }
-
-//    @PostMapping("/{perfilId}/permissoes")
-//    public ResponseEntity<Void> vincularTransacao(
-//            PathVariable Long perfilId,
-//            @RequestBody PerfilRequestDTO dto
-//    ){
-//
-//        service.cadastrar(descricao);
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).build();
-//    }
-
-    @GetMapping
-    public ResponseEntity<List<PerfilEntity>> listarTodos(){
-
-        return ResponseEntity.status(HttpStatus.OK).body(service.getAllPerfis());
+    @DeleteMapping("/{perfilId}/permissoes")
+    public ResponseEntity<Void> removerPermissoes(
+            @PathVariable(required = true)  Long perfilId, Set<String> permissoes) {
+        service.removerPermissoes(perfilId, permissoes);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

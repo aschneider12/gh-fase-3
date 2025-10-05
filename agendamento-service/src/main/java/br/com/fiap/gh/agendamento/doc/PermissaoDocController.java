@@ -13,13 +13,13 @@ import java.util.Set;
 public interface PermissaoDocController {
 
     @Operation(description = "Cadastrar uma nova permissão")
-    ResponseEntity<PerfilDTO> cadastrar(String novaPermissao);
+    ResponseEntity<PermissaoDTO> cadastrar(String novaPermissao);
 
     @Operation(description = "Buscar uma permissão por ID.")
-    ResponseEntity<PerfilDTO> buscarPorId(Long id);
+    ResponseEntity<PermissaoDTO> buscarPorId(Long id);
 
     @Operation(description = "Atualizar permissão existente.")
-    ResponseEntity<PerfilDTO> atualizar(PermissaoDTO permissaoDTO);
+    ResponseEntity<PermissaoDTO> atualizar(Long id, PermissaoDTO permissaoDTO);
 
     @Operation(description = "Deletar permissão.")
     ResponseEntity<String> deletar(Long id);

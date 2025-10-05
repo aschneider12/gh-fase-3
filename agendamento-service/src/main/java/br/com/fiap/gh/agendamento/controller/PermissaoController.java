@@ -25,7 +25,7 @@ public class PermissaoController implements PermissaoDocController {
     }
 
     @PostMapping
-    public ResponseEntity<PerfilDTO> cadastrar(@RequestBody String recurso){
+    public ResponseEntity<PermissaoDTO> cadastrar(@RequestBody String recurso){
 
         service.cadastrar(recurso);
 
@@ -33,27 +33,29 @@ public class PermissaoController implements PermissaoDocController {
     }
 
     @Override
-    public ResponseEntity<PerfilDTO> buscarPorId(Long id) {
+    @GetMapping("/{permissaoId}")
+    public ResponseEntity<PermissaoDTO> buscarPorId(@PathVariable(required = true) Long id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<PerfilDTO> atualizar(PermissaoDTO permissaoDTO) {
+    @PutMapping("/{permissaoId}")
+    public ResponseEntity<PermissaoDTO> atualizar(
+            @PathVariable(required = true) Long id,
+            @RequestBody PermissaoDTO permissaoDTO) {
+
         return null;
     }
 
     @Override
-    public ResponseEntity<String> deletar(Long id) {
+    @DeleteMapping("/{permissaoId}")
+    public ResponseEntity<String> deletar(@PathVariable(required = true) Long id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<List<PermissaoDTO>> buscarTodos() {
-        return null;
-    }
-
     @GetMapping
-    public ResponseEntity<List<PermissaoEntity>> listarTodos(){
+    public ResponseEntity<List<PermissaoDTO>> buscarTodos() {
 
         return ResponseEntity.status(HttpStatus.OK).body(service.getAllTransacoes());
     }

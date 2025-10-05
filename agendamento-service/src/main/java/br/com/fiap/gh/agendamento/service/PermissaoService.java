@@ -1,5 +1,6 @@
 package br.com.fiap.gh.agendamento.service;
 
+import br.com.fiap.gh.agendamento.dto.PermissaoDTO;
 import br.com.fiap.gh.jpa.entities.PermissaoEntity;
 import br.com.fiap.gh.jpa.repositories.PermissaoRepository;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,9 @@ public class PermissaoService {
         this.repository = repository;
     }
 
-    public List<PermissaoEntity> getAllTransacoes() {
+    public List<PermissaoDTO> getAllTransacoes() {
 
-        return repository.findAll();
+        return repository.findAll().stream().map(PermissaoDTO::create).toList();
     }
 
     public void cadastrar(String nomeTransacao) {

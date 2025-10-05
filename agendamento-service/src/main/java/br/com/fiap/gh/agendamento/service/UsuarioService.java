@@ -3,6 +3,7 @@ package br.com.fiap.gh.agendamento.service;
 import br.com.fiap.gh.agendamento.dto.MudarSenhaDTO;
 import br.com.fiap.gh.agendamento.dto.UsuarioInsertDTO;
 import br.com.fiap.gh.agendamento.dto.UsuarioResponseDTO;
+import br.com.fiap.gh.agendamento.dto.UsuarioUpdateDTO;
 import br.com.fiap.gh.jpa.repositories.UsuarioRepository;
 import br.com.fiap.gh.jpa.entities.UsuarioEntity;
 import org.springframework.stereotype.Service;
@@ -66,11 +67,21 @@ public class UsuarioService {
 
         repository.save(entidadeUsuario);
 
-        return new UsuarioResponseDTO(
-                entidadeUsuario.getId(),
-                entidadeUsuario.getNome(),
-                entidadeUsuario.getEmail(),
-                entidadeUsuario.getLogin(),usuarioDTO.perfis());
+        return UsuarioResponseDTO.create(entidadeUsuario);
+    }
+
+    public UsuarioResponseDTO atualizarUsuario(UsuarioUpdateDTO usuarioDTO, Long usuarioId) {
+
+        var usuario = repository.findById(usuarioId).orElseThrow(()
+                -> new RuntimeException("Usuário não encontrado"));
+
+        usuario.setNome(usuarioDTO.nome());
+        usuario.setLogin(usuarioDTO.login());
+        usuario.setEmail(usuarioDTO.email());
+
+        repository.save(usuario);
+
+        return UsuarioResponseDTO.create(usuario);
     }
 
     private UsuarioEntity convertToEntity(UsuarioInsertDTO usuarioDTO) {
@@ -78,7 +89,9 @@ public class UsuarioService {
         var usuario =  new UsuarioEntity();
         usuario.setNome(usuarioDTO.nome());
         usuario.setLogin(usuarioDTO.login());
+        usuario.setEmail(usuarioDTO.email());
         usuario.setSenha(usuarioDTO.senha());
         return usuario;
     }
+
 }

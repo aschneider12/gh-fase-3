@@ -36,7 +36,9 @@ public class UsuarioController implements UsuarioDocController {
     public ResponseEntity<UsuarioResponseDTO> atualizar(
             @RequestBody UsuarioUpdateDTO usuarioDTO,
             @PathVariable(required = true)Long usuarioId) {
-        return null;
+
+        UsuarioResponseDTO resp = service.atualizarUsuario(usuarioDTO, usuarioId);
+        return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
 
     @Override
