@@ -1,4 +1,4 @@
 
-type Mutation {}
+# type Mutation {}
 
 type Query {}

@@ -60,6 +60,8 @@ services:
         condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: docker
+      SPRING.MAIL.USERNAME: clinicafiap@gmail.com
+      SPRING.MAIL.PASSWORD: zoop xoed phcx xhrm
     networks: [shared_network]
 
   historico-service:
