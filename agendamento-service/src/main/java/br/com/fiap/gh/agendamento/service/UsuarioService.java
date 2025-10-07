@@ -6,6 +6,7 @@ import br.com.fiap.gh.agendamento.dto.UsuarioResponseDTO;
 import br.com.fiap.gh.agendamento.dto.UsuarioUpdateDTO;
 import br.com.fiap.gh.jpa.repositories.UsuarioRepository;
 import br.com.fiap.gh.jpa.entities.UsuarioEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +16,12 @@ public class UsuarioService {
 
     private final PerfilService perfilService;
     private final UsuarioRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(PerfilService perfilService, UsuarioRepository repository) {
+    public UsuarioService(PerfilService perfilService, UsuarioRepository repository, PasswordEncoder passwordEncoder) {
         this.perfilService = perfilService;
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UsuarioResponseDTO> getAllUsuarios() {
@@ -35,13 +38,6 @@ public class UsuarioService {
                 )).toList();
     }
 
-    public void deletar(Long id) {
-
-        repository.deleteById(id);
-    }
-
-    public void mudarSenha(MudarSenhaDTO mudarSenhaDTO, Long usuarioId) {
-    }
 
     public UsuarioResponseDTO getUsuarioById(Long usuarioId) {
 
@@ -56,8 +52,8 @@ public class UsuarioService {
     }
 
     public UsuarioResponseDTO cadastrarUsuario(UsuarioInsertDTO usuarioDTO) {
-
         var entidadeUsuario = convertToEntity(usuarioDTO);
+        entidadeUsuario.setSenha(passwordEncoder.encode(usuarioDTO.senha()));
         repository.save(entidadeUsuario);
 
         usuarioDTO.perfis().forEach( descricao -> {
@@ -71,7 +67,6 @@ public class UsuarioService {
     }
 
     public UsuarioResponseDTO atualizarUsuario(UsuarioUpdateDTO usuarioDTO, Long usuarioId) {
-
         var usuario = repository.findById(usuarioId).orElseThrow(()
                 -> new RuntimeException("Usuário não encontrado"));
 
@@ -83,6 +78,23 @@ public class UsuarioService {
 
         return UsuarioResponseDTO.create(usuario);
     }
+
+    public void deletar(Long id) {
+        repository.deleteById(id);
+    }
+
+    public void mudarSenha(MudarSenhaDTO mudarSenhaDTO, Long usuarioId) {
+        var usuario = repository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        if (!passwordEncoder.matches(mudarSenhaDTO.senhaAntiga(), usuario.getSenha())) {
+            throw new RuntimeException("Senha antiga incorreta");
+        }
+
+        usuario.setSenha(passwordEncoder.encode(mudarSenhaDTO.senhaNova()));
+        repository.save(usuario);
+    }
+
 
     private UsuarioEntity convertToEntity(UsuarioInsertDTO usuarioDTO) {
 

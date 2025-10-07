@@ -22,22 +22,34 @@ public class UsuarioController implements UsuarioDocController {
         this.service = service;
     }
 
+
+    @Override
+    @GetMapping
+    public ResponseEntity<List<UsuarioResponseDTO>> buscarTodos() {
+        var response = service.getAllUsuarios();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @Override
+    @GetMapping("/{usuarioId}")
+    public ResponseEntity<UsuarioResponseDTO> buscarPorId(@PathVariable(required = true) Long usuarioId) {
+        var response = service.getUsuarioById(usuarioId);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
     @Override
     @PostMapping
-    public ResponseEntity<UsuarioResponseDTO> cadastrar(
-            @RequestBody UsuarioInsertDTO usuarioDTO) {
-
+    public ResponseEntity<UsuarioResponseDTO> cadastrar(@RequestBody UsuarioInsertDTO usuarioDTO) {
         var response = service.cadastrarUsuario(usuarioDTO);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @Override
     @PutMapping("/{usuarioId}")
-    public ResponseEntity<UsuarioResponseDTO> atualizar(
-            @RequestBody UsuarioUpdateDTO usuarioDTO,
-            @PathVariable(required = true)Long usuarioId) {
-
+    public ResponseEntity<UsuarioResponseDTO> atualizar(@RequestBody UsuarioUpdateDTO usuarioDTO, @PathVariable(required = true)Long usuarioId) {
         UsuarioResponseDTO resp = service.atualizarUsuario(usuarioDTO, usuarioId);
+
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
 
@@ -49,29 +61,12 @@ public class UsuarioController implements UsuarioDocController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Usuário deletado com sucesso");
     }
 
-    @Override
-    @GetMapping
-    public ResponseEntity<List<UsuarioResponseDTO>> buscarTodos() {
-
-        var response = service.getAllUsuarios();
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
-    @Override
-    @GetMapping("/{usuarioId}")
-    public ResponseEntity<UsuarioResponseDTO> buscarPorId(
-            @PathVariable(required = true) Long usuarioId) {
-        var response = service.getUsuarioById(usuarioId);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
 
     @Override
     @PatchMapping("/{usuarioId}/mudar-senha")
-    public ResponseEntity<Void> mudarSenha(
-                @RequestBody(required = true) MudarSenhaDTO mudarSenhaDTO,
-                @PathVariable(required = true)  Long usuarioId) {
-         service.mudarSenha(mudarSenhaDTO, usuarioId);
-         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<Void> mudarSenha(@RequestBody(required = true) MudarSenhaDTO mudarSenhaDTO, @PathVariable(required = true)  Long usuarioId) {
+        service.mudarSenha(mudarSenhaDTO, usuarioId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Override
