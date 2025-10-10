@@ -19,7 +19,7 @@ public interface PermissaoDocController {
     ResponseEntity<PermissaoDTO> buscarPorId(Long id);
 
     @Operation(description = "Atualizar permissão existente.")
-    ResponseEntity<PermissaoDTO> atualizar(Long id, PermissaoDTO permissaoDTO);
+    ResponseEntity<PermissaoDTO> atualizar(Long id, String recurso);
 
     @Operation(description = "Deletar permissão.")
     ResponseEntity<String> deletar(Long id);

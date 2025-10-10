@@ -23,33 +23,43 @@ public class PerfilController implements PerfilDocController {
     }
 
     @Override
+    @GetMapping
     public ResponseEntity<List<PerfilDTO>> buscarTodos() {
-        return null;
+
+        var dtos = service.getAllPerfis();
+        return ResponseEntity.status(HttpStatus.OK).body(dtos);
     }
 
     @Override
-    public ResponseEntity<PerfilDTO> buscarPorId(Long id) {
-        return null;
+    @GetMapping("/{perfilId}")
+    public ResponseEntity<PerfilDTO> buscarPorId(@PathVariable Long perfilId) {
+
+        PerfilDTO dto = service.buscarPerfilById(perfilId);
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
     @PostMapping
     public ResponseEntity<PerfilDTO> cadastrar(@RequestBody String descricao){
 
-        service.cadastrar(descricao);
+        var dtoCriado = service.cadastrar(descricao);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(dtoCriado);
     }
 
     @Override
     @PutMapping("/{perfilId}")
-    public ResponseEntity<PerfilDTO> atualizar(Long id, PerfilDTO perfilDTO) {
-        return null;
+    public ResponseEntity<PerfilDTO> atualizar(@PathVariable(required = true) Long perfilId, @RequestBody String descricao) {
+
+        var dto = service.atualizarPerfil(perfilId, descricao);
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
     @Override
     @DeleteMapping("/{perfilId}")
-    public ResponseEntity<String> deletar(Long id) {
-        return null;
+    public ResponseEntity<String> deletar(@PathVariable Long perfilId) {
+
+        service.deletarPerfil(perfilId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Perfil deletado com sucesso.");
     }
 
     @Override

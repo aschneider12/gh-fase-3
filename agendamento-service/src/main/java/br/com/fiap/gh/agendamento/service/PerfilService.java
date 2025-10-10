@@ -1,5 +1,6 @@
 package br.com.fiap.gh.agendamento.service;
 
+import br.com.fiap.gh.agendamento.dto.PerfilDTO;
 import br.com.fiap.gh.agendamento.dto.PerfilPermissaoDTO;
 import br.com.fiap.gh.jpa.repositories.PerfilRepository;
 import br.com.fiap.gh.jpa.entities.PerfilEntity;
@@ -17,12 +18,17 @@ public class PerfilService {
         this.repository = repository;
     }
 
-    public List<PerfilEntity> getAllPerfis() {
+    public List<PerfilDTO> getAllPerfis() {
+        var perfis = repository.findAll();
 
-        return repository.findAll();
+        List<PerfilDTO> dtos = perfis.stream()
+                .map(PerfilDTO::create)
+                .toList();
+
+        return dtos;
     }
 
-    public void cadastrar(String nomePerfil) {
+    public PerfilDTO cadastrar(String nomePerfil) {
         repository.findByDescricao(nomePerfil)
                 .ifPresent(perfil -> {
                     throw new RuntimeException("Perfil já cadastrado: " + nomePerfil);
@@ -30,6 +36,8 @@ public class PerfilService {
         PerfilEntity perfil = new PerfilEntity();
         perfil.setDescricao(nomePerfil);
         repository.save(perfil);
+
+        return PerfilDTO.create(perfil);
     }
 
     public PerfilEntity buscarPerfilPorNome(String descricao) {
@@ -52,5 +60,29 @@ public class PerfilService {
     }
 
     public void removerPermissoes(Long perfilId, Set<String> permissoes) {
+    }
+
+    public PerfilDTO buscarPerfilById(Long id) {
+        return repository.findById(id)
+                .map(PerfilDTO::create)
+                .orElseThrow(() -> new RuntimeException("Perfil não encontrado: " + id));
+    }
+
+    public PerfilDTO atualizarPerfil(Long perfilId, String descricao) {
+       var perfil  = repository.findById(perfilId)
+               .orElseThrow(() -> new RuntimeException("Perfil não encontrado: " + perfilId));
+
+       perfil.setDescricao(descricao);
+       repository.save(perfil);
+
+         return PerfilDTO.create(perfil);
+    }
+
+    public void deletarPerfil(Long id) {
+
+        var perfil  = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Perfil não encontrado: " + id));
+
+        repository.delete(perfil);
     }
 }

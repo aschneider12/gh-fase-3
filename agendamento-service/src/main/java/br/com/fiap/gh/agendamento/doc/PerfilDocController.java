@@ -24,7 +24,7 @@ public interface PerfilDocController {
     ResponseEntity<PerfilDTO> cadastrar(String novoPerfil);
 
     @Operation(description = "Atualizar perfil existente.")
-    ResponseEntity<PerfilDTO> atualizar(Long id, PerfilDTO perfilDTO);
+    ResponseEntity<PerfilDTO> atualizar(Long id, String novaDescricao);
 
     @Operation(description = "Deletar perfil.")
     ResponseEntity<String> deletar(Long id);

@@ -1,10 +1,7 @@
 package br.com.fiap.gh.agendamento.controller;
 
 import br.com.fiap.gh.agendamento.doc.PermissaoDocController;
-import br.com.fiap.gh.agendamento.doc.UsuarioDocController;
-import br.com.fiap.gh.agendamento.dto.PerfilDTO;
 import br.com.fiap.gh.agendamento.dto.PermissaoDTO;
-import br.com.fiap.gh.jpa.entities.PermissaoEntity;
 import br.com.fiap.gh.agendamento.service.PermissaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,30 +24,35 @@ public class PermissaoController implements PermissaoDocController {
     @PostMapping
     public ResponseEntity<PermissaoDTO> cadastrar(@RequestBody String recurso){
 
-        service.cadastrar(recurso);
+        var dtoCriado = service.cadastrar(recurso);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(dtoCriado);
     }
 
     @Override
     @GetMapping("/{permissaoId}")
-    public ResponseEntity<PermissaoDTO> buscarPorId(@PathVariable(required = true) Long id) {
-        return null;
+    public ResponseEntity<PermissaoDTO> buscarPorId(@PathVariable(required = true) Long permissaoId) {
+
+        var dto = service.buscarPermissaoPorId(permissaoId);
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
     @Override
     @PutMapping("/{permissaoId}")
     public ResponseEntity<PermissaoDTO> atualizar(
-            @PathVariable(required = true) Long id,
-            @RequestBody PermissaoDTO permissaoDTO) {
+            @PathVariable(required = true) Long permissaoId,
+            @RequestBody String recurso) {
 
-        return null;
+        var dto = service.atualizarPermissao(permissaoId, recurso);
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
     @Override
     @DeleteMapping("/{permissaoId}")
-    public ResponseEntity<String> deletar(@PathVariable(required = true) Long id) {
-        return null;
+    public ResponseEntity<String> deletar(@PathVariable(required = true) Long permissaoId) {
+
+        service.deletarPermissao(permissaoId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Permissão deletada com sucesso.");
     }
 
     @Override
