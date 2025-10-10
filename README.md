@@ -16,11 +16,6 @@
 - Swagger (SpringDoc)  
 - Docker & Docker Compose
 - MapStruct
-- JUnit 5
-- Mockito
-- MockMvc
-- AsserJ
-- Rest Assured
 
 ## Autenticação com Google OAuth2.0 + JWT
 
@@ -68,7 +63,9 @@ mvn clean spring-boot:run
 O backend estará disponível em:
 
 ```
-http://localhost:8080/hospital
+localhost:8080/hospital/actuator/health
+localhost:8082/hospital/actuator/health
+localhost:8083/hospital/actuator/health
 ```
 
 ---
@@ -77,7 +74,7 @@ http://localhost:8080/hospital
 
 #### 4.1 Acessar rota pública
 ```bash
-curl http://localhost:8080/hospital/public
+curl http://localhost:808/hospital/actuator/health
 ```
 
 Resposta esperada:
@@ -132,4 +129,4 @@ Após subir o backend, acesse:
 - [Natan Campos](https://github.com/Tune-SKT)
 - [Henrique Danzo](https://github.com/danzobiss)
 
-Desenvolvido como parte do projeto Tech Challenge - FIAP
+Desenvolvido como parte do projeto Tech Challenge - FIAP - Fase 3
