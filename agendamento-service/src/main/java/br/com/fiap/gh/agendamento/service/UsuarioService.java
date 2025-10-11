@@ -1,15 +1,15 @@
 package br.com.fiap.gh.agendamento.service;
 
-import br.com.fiap.gh.agendamento.dto.MudarSenhaDTO;
-import br.com.fiap.gh.agendamento.dto.UsuarioInsertDTO;
-import br.com.fiap.gh.agendamento.dto.UsuarioResponseDTO;
-import br.com.fiap.gh.agendamento.dto.UsuarioUpdateDTO;
+import br.com.fiap.gh.agendamento.dto.*;
+import br.com.fiap.gh.jpa.entities.UsuarioPerfilEntity;
 import br.com.fiap.gh.jpa.repositories.UsuarioRepository;
 import br.com.fiap.gh.jpa.entities.UsuarioEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -106,4 +106,37 @@ public class UsuarioService {
         return usuario;
     }
 
+    public List<PerfilDTO> buscarPerfis(Long usuarioId) {
+        var usuario = repository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + usuarioId));
+
+        return usuario.getPerfis().stream()
+                .map( up -> PerfilDTO.create(up.getPerfil()))
+                .toList();
+    }
+
+    public void adicionarPerfis(Long usuarioId, Set<String> perfis) {
+
+        var usuario = repository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + usuarioId));
+
+        perfis.forEach( descricao -> {
+            var perfil = perfilService.buscarPerfilPorNome(descricao);
+            usuario.addPerfil(perfil);
+        });
+
+        repository.save(usuario);
+    }
+
+    public void removerPerfis(Long usuarioId, Set<String> perfis) {
+        var usuario = repository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + usuarioId));
+
+        perfis.forEach( descricao -> {
+            var perfil = perfilService.buscarPerfilPorNome(descricao);
+            usuario.removerPerfil(perfil);
+        });
+
+        repository.save(usuario);
+    }
 }

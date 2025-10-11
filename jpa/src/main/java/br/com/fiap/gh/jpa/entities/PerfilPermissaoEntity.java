@@ -14,12 +14,12 @@ public class PerfilPermissaoEntity implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "perfil_id", insertable = false, updatable = false)
+    @JoinColumn(name = "perfil_id")
     @JsonBackReference
     private PerfilEntity perfil;
 
     @ManyToOne
-    @JoinColumn(name = "permissao_id", insertable = false, updatable = false)
+    @JoinColumn(name = "permissao_id")
     private PermissaoEntity permissao;
 
     private boolean view;
@@ -29,6 +29,16 @@ public class PerfilPermissaoEntity implements Serializable {
 
     public PerfilPermissaoEntity() {
 
+    }
+
+    public PerfilPermissaoEntity(PerfilEntity perfil, PermissaoEntity permissao,
+                                 boolean view, boolean insert, boolean update, boolean delete) {
+        this.perfil = perfil;
+        this.permissao = permissao;
+        this.view = view;
+        this.insert = insert;
+        this.update = update;
+        this.delete = delete;
     }
 
     public Long getId() {

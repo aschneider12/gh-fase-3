@@ -54,4 +54,10 @@ public class PermissaoService {
 
         repository.delete(permissao);
     }
+
+    public PermissaoEntity buscarPermissaoPorRecurso(String recurso) {
+
+        return repository.findByRecurso(recurso)
+                .orElseThrow(() -> new RuntimeException("Permissão não encontrada: " + recurso));
+    }
 }

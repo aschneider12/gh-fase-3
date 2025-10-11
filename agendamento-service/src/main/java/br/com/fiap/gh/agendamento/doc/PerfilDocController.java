@@ -33,7 +33,7 @@ public interface PerfilDocController {
     public ResponseEntity<List<PerfilPermissaoDTO>> listarPermissoes(Long perfilId);
 
     @Operation(summary = "Associar permissão ao perfil", description = "Realiza a associação dos das permissões ao perfil.")
-    public ResponseEntity<Void> adicionarPermissoes(Long usuarioId, Set<String> perfis);
+    public ResponseEntity<Void> adicionarPermissoes(Long usuarioId, Set<PerfilPermissaoInsert> perfis);
 
     @Operation(summary = "Remover permissão do perfil", description = "Remove as permissões associadas ao perfil.")
     public ResponseEntity<Void> removerPermissoes(Long perfilId, Set<String> permissoes);

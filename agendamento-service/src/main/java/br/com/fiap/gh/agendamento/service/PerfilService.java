@@ -2,6 +2,8 @@ package br.com.fiap.gh.agendamento.service;
 
 import br.com.fiap.gh.agendamento.dto.PerfilDTO;
 import br.com.fiap.gh.agendamento.dto.PerfilPermissaoDTO;
+import br.com.fiap.gh.agendamento.dto.PerfilPermissaoInsert;
+import br.com.fiap.gh.jpa.entities.PerfilPermissaoEntity;
 import br.com.fiap.gh.jpa.repositories.PerfilRepository;
 import br.com.fiap.gh.jpa.entities.PerfilEntity;
 import org.springframework.stereotype.Service;
@@ -12,10 +14,12 @@ import java.util.Set;
 @Service
 public class PerfilService {
 
-    private PerfilRepository repository;
+    private final PerfilRepository repository;
+    private final PermissaoService permissaoService;
 
-    public PerfilService(PerfilRepository repository) {
+    public PerfilService(PerfilRepository repository, PermissaoService permissaoService) {
         this.repository = repository;
+        this.permissaoService = permissaoService;
     }
 
     public List<PerfilDTO> getAllPerfis() {
@@ -56,10 +60,30 @@ public class PerfilService {
                 .toList();
     }
 
-    public void adicionarPermissoes(Long perfilId, Set<String> permissoes) {
+    public void adicionarPermissoes(Long perfilId, Set<PerfilPermissaoInsert> permissoes) {
+        var perfil = repository.findById(perfilId)
+                .orElseThrow(() -> new RuntimeException("Perfil não encontrado: " + perfilId));
+
+        permissoes.forEach(p -> {
+            var permissao = permissaoService.buscarPermissaoPorRecurso(p.recurso());
+            var perfil_permissao = new PerfilPermissaoEntity(perfil, permissao,
+                    p.view(), p.insert(), p.update(), p.delete());
+
+            perfil.getPermissoes().add(perfil_permissao);
+            repository.save(perfil);
+        });
     }
 
     public void removerPermissoes(Long perfilId, Set<String> permissoes) {
+        var perfil = repository.findById(perfilId)
+                .orElseThrow(() -> new RuntimeException("Perfil não encontrado: " + perfilId));
+
+        var permissoesParaRemover = perfil.getPermissoes().stream()
+                .filter(pp -> permissoes.contains(pp.getPermissao().getRecurso()))
+                .toList();
+
+        perfil.getPermissoes().removeAll(permissoesParaRemover);
+        repository.save(perfil);
     }
 
     public PerfilDTO buscarPerfilById(Long id) {

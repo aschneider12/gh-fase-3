@@ -3,6 +3,7 @@ package br.com.fiap.gh.agendamento.controller;
 import br.com.fiap.gh.agendamento.doc.PerfilDocController;
 import br.com.fiap.gh.agendamento.dto.PerfilDTO;
 import br.com.fiap.gh.agendamento.dto.PerfilPermissaoDTO;
+import br.com.fiap.gh.agendamento.dto.PerfilPermissaoInsert;
 import br.com.fiap.gh.agendamento.service.PerfilService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,16 +75,18 @@ public class PerfilController implements PerfilDocController {
     @Override
     @PostMapping("/{perfilId}/permissoes")
     public ResponseEntity<Void> adicionarPermissoes(
-            @PathVariable(required = true) Long perfilId, Set<String> permissoes) {
-        service.adicionarPermissoes(perfilId, permissoes);
+            @PathVariable(required = true) Long perfilId,
+            @RequestBody Set<PerfilPermissaoInsert> permissoes) {
 
+        service.adicionarPermissoes(perfilId, permissoes);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
     @DeleteMapping("/{perfilId}/permissoes")
     public ResponseEntity<Void> removerPermissoes(
-            @PathVariable(required = true)  Long perfilId, Set<String> permissoes) {
+            @PathVariable(required = true)  Long perfilId,
+            @RequestBody Set<String> permissoes) {
         service.removerPermissoes(perfilId, permissoes);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

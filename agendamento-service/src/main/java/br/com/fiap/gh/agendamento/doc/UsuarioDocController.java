@@ -39,7 +39,7 @@ public interface UsuarioDocController {
 
     @Operation(summary = "Listar perfis", description = "Listar todos os perfis vinculados ao usuário cadastrado")
     @PreAuthorize("hasAuthority('VIEW_USUARIO_PERFIL')")
-    public ResponseEntity<List<PerfilPermissaoDTO>> listarPerfis(Long usuarioId);
+    public ResponseEntity<List<PerfilDTO>> listarPerfis(Long usuarioId);
 
     @Operation(summary = "Cadastrar novo perfil", description = "Realiza a associação dos perfis ao usuário cadastrado")
     @PreAuthorize("hasAuthority('INSERT_USUARIO_PERFIL')")

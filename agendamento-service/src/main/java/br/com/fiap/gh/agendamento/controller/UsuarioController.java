@@ -71,8 +71,11 @@ public class UsuarioController implements UsuarioDocController {
 
     @Override
     @GetMapping("/{usuarioId}/perfis")
-    public ResponseEntity<List<PerfilPermissaoDTO>> listarPerfis(@PathVariable(required = true) Long usuarioId) {
-        return null;
+    public ResponseEntity<List<PerfilDTO>> listarPerfis(
+            @PathVariable(required = true) Long usuarioId) {
+
+        var perfisDoUsuario =  service.buscarPerfis(usuarioId);
+        return ResponseEntity.status(HttpStatus.OK).body(perfisDoUsuario);
     }
 
     @Override
@@ -80,7 +83,9 @@ public class UsuarioController implements UsuarioDocController {
     public ResponseEntity<Void> adicionarPerfis(
             @PathVariable(required = true) Long usuarioId,
             @RequestBody Set<String> perfis) {
-        return null;
+
+        service.adicionarPerfis(usuarioId, perfis);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
@@ -88,7 +93,9 @@ public class UsuarioController implements UsuarioDocController {
     public ResponseEntity<Void> removerPerfis(
             @PathVariable(required = true) Long usuarioId,
             @RequestBody Set<String> perfis) {
-        return null;
+
+        service.removerPerfis(usuarioId, perfis);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
